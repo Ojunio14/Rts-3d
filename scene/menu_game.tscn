@@ -1,4 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://juky5yfg4p2o"]
+[gd_scene load_steps=15 format=3 uid="uid://juky5yfg4p2o"]
+
+[ext_resource type="Script" path="res://scene/GUI/Todos_menus/Menus_Inicial/Menu_Inicial_Buttons.gd" id="1_0h6dr"]
+[ext_resource type="FontFile" uid="uid://cxqlbf2o63iel" path="res://assets/Fontes/Qaz-Italic.otf" id="1_6qk0j"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lysd7"]
 albedo_color = Color(0.501961, 1, 1, 1)
@@ -12,6 +15,45 @@ emission = Color(1, 0.14902, 1, 1)
 emission_energy_multiplier = 0.35
 
 [sub_resource type="BoxMesh" id="BoxMesh_naysv"]
+
+[sub_resource type="Animation" id="Animation_ribud"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.524093, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.5, 0.5, 0.5)]
+}
 
 [sub_resource type="Animation" id="Animation_oua5c"]
 resource_name = "teste"
@@ -54,45 +96,6 @@ tracks/2/keys = {
 "values": [Vector3(1, 1, 1), Vector3(0.5, 0.5, 0.5), Vector3(1, 1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_ribud"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0.524093, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:scale")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.5, 0.5, 0.5)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_b3bkv"]
 _data = {
 "RESET": SubResource("Animation_ribud"),
@@ -121,7 +124,9 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="SubViewport" type="SubViewport" parent="Node3D/SubViewportContainer"]
+handle_input_locally = false
 size = Vector2i(1152, 648)
+render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="Node3D/SubViewportContainer/SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 5.28707, 3.23401)
@@ -157,6 +162,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_0h6dr")
 
 [node name="MarginContainer" type="MarginContainer" parent="Menu"]
 layout_mode = 1
@@ -176,14 +182,57 @@ layout_mode = 2
 [node name="Label" type="Label" parent="Menu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("1_6qk0j")
+theme_override_font_sizes/font_size = 40
 text = "game title"
 
-[node name="Button" type="Button" parent="Menu/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Menu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+
+[node name="Container_Buttons" type="MarginContainer" parent="Menu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_constants/margin_left = 20
+
+[node name="VBox" type="VBoxContainer" parent="Menu/MarginContainer/VBoxContainer/Container_Buttons"]
+layout_mode = 2
+
+[node name="Start_Button" type="Button" parent="Menu/MarginContainer/VBoxContainer/Container_Buttons/VBox"]
 layout_mode = 2
 size_flags_horizontal = 0
+theme_override_colors/font_pressed_color = Color(0.431373, 0.431373, 0.431373, 1)
+theme_override_colors/font_hover_color = Color(0.431373, 0.431373, 0.431373, 1)
+theme_override_fonts/font = ExtResource("1_6qk0j")
+theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxEmpty_r5csp")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_ksgkf")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_t34h6")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_blc32")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_tdp6m")
 text = "START GAME"
+
+[node name="Settings_Button" type="Button" parent="Menu/MarginContainer/VBoxContainer/Container_Buttons/VBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("1_6qk0j")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxEmpty_r5csp")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ksgkf")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_t34h6")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_blc32")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tdp6m")
+text = "Settings
+"
+
+[node name="Quick_Button" type="Button" parent="Menu/MarginContainer/VBoxContainer/Container_Buttons/VBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("1_6qk0j")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxEmpty_r5csp")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ksgkf")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_t34h6")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_blc32")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tdp6m")
+text = "Quick"

@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://civxrhvwl12ic"]
+
+[ext_resource type="Script" path="res://script/Entities/script_enimies/Skeleton.gd" id="1_h3ca0"]
+[ext_resource type="Script" path="res://script/Config/state_machine_finite/enimies/StateMachine.gd" id="2_po3vb"]
+[ext_resource type="Script" path="res://script/Config/state_machine_finite/enimies/Walk.gd" id="3_wchxo"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0fpq3"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_osdny"]
+
+[node name="Skeleton" type="CharacterBody3D" groups=["enimies"]]
+script = ExtResource("1_h3ca0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.793053, 0)
+shape = SubResource("CapsuleShape3D_0fpq3")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.790383, 0)
+mesh = SubResource("CapsuleMesh_osdny")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="StateMachine" type="Node3D" parent="."]
+script = ExtResource("2_po3vb")
+
+[node name="WalkSkeleton" type="Node3D" parent="StateMachine"]
+script = ExtResource("3_wchxo")

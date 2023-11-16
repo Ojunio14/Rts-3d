@@ -6,13 +6,14 @@ extends Node3D
 var baslista : PackedScene =ResourceLoader.load("res://scene/scene_world/build/turret/balista/balista_lvl_1.tscn")#ResourceLoader.load("res://scene/scene_world/build/turret/balista/balista_lvl_1.tscn")
 
 
-
+var Buildind_no_chao = false
 var CurrentSpawnable : StaticBody3D
 var AbleBuilding : bool = true
 
 
 
 func _physics_process(delta: float) -> void:
+	
 	if GameManager.CurrentState == GameManager.State.Buildling:
 		
 		var camera = get_viewport().get_camera_3d()
@@ -21,19 +22,23 @@ func _physics_process(delta: float) -> void:
 		var cursorPos = Plane(Vector3.UP, transform.origin.y).intersects_ray(from, to)
 		#print(vec3.get_object().position)
 		var vec3 = cursorPos
-		CurrentSpawnable.global_position = Vector3(round(vec3.x),vec3.y,round(vec3.z))#Vector3(vec3.x,0,vec3.z)
-		CurrentSpawnable.activeBuildingObject = true
+		if vec3 != null:
+			CurrentSpawnable.global_position = Vector3(round(vec3.x),vec3.y,round(vec3.z))#Vector3(vec3.x,0,vec3.z)
+			CurrentSpawnable.activeBuildingObject = true
 		#print(vec3)
+		print(CurrentSpawnable)
 		if AbleBuilding:
 			#get_tree().root.get_node("Main/teste1").global_position = cursorPos#
-			print(Vector3(round(vec3.x),0,round(vec3.z)))
+			#print(Vector3(round(vec3.x),0,round(vec3.z)))
 			
+			if Input.is_action_just_pressed("destroy"):
+				CurrentSpawnable.queue_free()
+				GameManager.CurrentState = GameManager.State.Play
 			
-			
-			if Input.is_action_just_pressed("MouseLeft"):
+			if Input.is_action_just_pressed("MouseLeft") :
 				var obj := CurrentSpawnable.duplicate()
 				
-				get_tree().root.get_node("Main/Build").add_child(obj)
+				get_tree().root.get_node("Scene_Main/Build").add_child(obj)
 				obj.activeBuildingObject = false
 				obj.global_position = CurrentSpawnable.global_position
 				
@@ -46,7 +51,7 @@ func SpawnOBj(obj):
 	if CurrentSpawnable != null:
 		CurrentSpawnable.queue_free()
 	CurrentSpawnable = obj.instantiate()
-	get_tree().root.get_node("Main/Build").add_child(CurrentSpawnable)
+	get_tree().root.get_node("Scene_Main/Build").add_child(CurrentSpawnable)
 	GameManager.CurrentState = GameManager.State.Buildling
 	
 

@@ -8,8 +8,9 @@ func _ready() -> void:
 	$Area2D.area_exited.connect(on_area2D_exited)
 
 func _on_button_button_down() -> void:
-
-	BuildManager.Spawn_Balista()
+	if not BuildManager.CurrentSpawnable != null:
+		
+		BuildManager.Spawn_Balista()
 
 func on_area2D_entered(area):
 	BuildManager.AbleBuilding = false

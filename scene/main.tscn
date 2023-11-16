@@ -1,6 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://81r1bw0i4v37"]
 
 [ext_resource type="PackedScene" uid="uid://qmrx7uy4jhuj" path="res://Player.tscn" id="1_4fdu4"]
+[ext_resource type="PackedScene" uid="uid://cuvoec8uui8to" path="res://scene/scene_world/mundo.tscn" id="1_r0mkq"]
+[ext_resource type="PackedScene" uid="uid://civxrhvwl12ic" path="res://scene/Entities/scene_enimies/skeleton.tscn" id="3_6lj85"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mr8hk"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -15,18 +17,12 @@ sky = SubResource("Sky_plsgx")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_ifch7"]
-data = PackedVector3Array(50, 0, 50, -50, 0, 50, 50, 0, -50, -50, 0, 50, -50, 0, -50, 50, 0, -50)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_0aesf"]
-size = Vector2(100, 100)
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l04v0"]
 albedo_color = Color(1, 0, 1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_kajjw"]
 
-[node name="Main" type="Node3D"]
+[node name="Scene_Main" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_itkkw")
@@ -35,16 +31,9 @@ environment = SubResource("Environment_itkkw")
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 58.3623, 0)
 shadow_enabled = true
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="Mundo" parent="." instance=ExtResource("1_r0mkq")]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("ConcavePolygonShape3D_ifch7")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
-mesh = SubResource("PlaneMesh_0aesf")
-skeleton = NodePath("../..")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+[node name="Centro" type="MeshInstance3D" parent="." groups=["teste"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.683029, 0)
 material_override = SubResource("StandardMaterial3D_l04v0")
 mesh = SubResource("BoxMesh_kajjw")
@@ -63,3 +52,6 @@ mesh = SubResource("BoxMesh_kajjw")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55405, 0)
 
 [node name="Build" type="Node3D" parent="."]
+
+[node name="Skeleton" parent="." instance=ExtResource("3_6lj85")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56.7844, 0, 0)
