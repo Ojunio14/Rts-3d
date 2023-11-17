@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://civxrhvwl12ic"]
 
 [ext_resource type="Script" path="res://script/Entities/script_enimies/Skeleton.gd" id="1_h3ca0"]
-[ext_resource type="Script" path="res://script/Config/state_machine_finite/enimies/StateMachine.gd" id="2_po3vb"]
+[ext_resource type="Script" path="res://script/Config/state_machine_finite/StateMachine.gd" id="2_po3vb"]
 [ext_resource type="Script" path="res://script/Config/state_machine_finite/enimies/Walk.gd" id="3_wchxo"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0fpq3"]
