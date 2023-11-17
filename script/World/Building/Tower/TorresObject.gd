@@ -1,4 +1,4 @@
-extends StaticBody3D
+extends "res://script/Config/Classe/Classe_Tower.gd"
 
 
 
@@ -9,29 +9,28 @@ extends StaticBody3D
 
 
 func _ready() -> void:
-	$Collision_Area_Building.connect("area_entered",Callable(self, "on_area_entered"))
-	$Collision_Area_Building.connect("area_exited",Callable(self, "on_area_exited"))
-
 	detected_enimies.body_entered.connect(on_body_entered)
 	detected_enimies.body_exited.connect(on_body_exited)
 
-var can_fire = false
-var target_atirar
-var activeBuildingObject : bool
-var objects : Array
-var target = null
-
-
+	$Collision_Area_Building.connect("area_entered",Callable(self, "on_area_entered"))
+	$Collision_Area_Building.connect("area_exited",Callable(self, "on_area_exited"))
 
 
 func _process(delta: float) -> void:
 	if self.name != "BALISTA_LVL_1":
 		if can_fire:
 			var vec3 =target.global_position
+			var cast = raycast($Marker3D.global_position,target.global_position)
+			print(cast)
 			torre.look_at(Vector3(vec3.x,transform.origin.y,vec3.z),Vector3.UP)
+	if Input.is_action_just_pressed("destroy"):
 
-
-
+		
+#		spawn()
+		pass
+		
+		
+		
 
 
 
@@ -45,9 +44,6 @@ func on_body_exited(body):
 	
 	
 	pass
-
-
-
 
 func on_area_entered(area):
 	if area.name == "Collision_Area_Building":
@@ -64,3 +60,4 @@ func on_area_exited(area):
 			if objects.size() <= 0:
 				BuildManager.AbleBuilding = true
 	
+

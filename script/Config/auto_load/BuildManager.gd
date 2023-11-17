@@ -3,8 +3,8 @@ extends Node3D
 
 
 
-var baslista : PackedScene =ResourceLoader.load("res://scene/scene_world/build/turret/balista/balista_lvl_1.tscn")#ResourceLoader.load("res://scene/scene_world/build/turret/balista/balista_lvl_1.tscn")
-
+var BALISTA_TOWER : PackedScene = ResourceLoader.load("res://scene/scene_world/build/turret/balista/balista_lvl_1.tscn")#ResourceLoader.load("res://scene/scene_world/build/turret/balista/balista_lvl_1.tscn")
+var WIZARD_TOWER : PackedScene = ResourceLoader.load("res://scene/scene_world/build/turret/Wizard/Wizard_lvl_1.tscn")
 
 var Buildind_no_chao = false
 var CurrentSpawnable : StaticBody3D
@@ -26,7 +26,7 @@ func _physics_process(delta: float) -> void:
 			CurrentSpawnable.global_position = Vector3(round(vec3.x),vec3.y,round(vec3.z))#Vector3(vec3.x,0,vec3.z)
 			CurrentSpawnable.activeBuildingObject = true
 		#print(vec3)
-		print(CurrentSpawnable)
+		
 		if AbleBuilding:
 			#get_tree().root.get_node("Main/teste1").global_position = cursorPos#
 			#print(Vector3(round(vec3.x),0,round(vec3.z)))
@@ -43,8 +43,11 @@ func _physics_process(delta: float) -> void:
 				obj.global_position = CurrentSpawnable.global_position
 				
 
-func Spawn_Balista():
-	SpawnOBj(baslista)
+func Spawn_Balista_tower() -> void:
+	SpawnOBj(BALISTA_TOWER)
+func Spawn_Wizard_tower() -> void:
+	SpawnOBj(WIZARD_TOWER)
+
 
 
 func SpawnOBj(obj):

@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://c3etbcqlxf421"]
+[gd_scene load_steps=16 format=3 uid="uid://c3etbcqlxf421"]
 
-[ext_resource type="Script" path="res://scene/scene_world/build/turret/balista/TorresObject.gd" id="1_tgyt6"]
+[ext_resource type="Script" path="res://script/World/Building/Tower/TorresObject.gd" id="1_a7ucq"]
 [ext_resource type="Texture2D" uid="uid://c0t34objqk4s4" path="res://assets/building/turret/balista/Balista_lvl_1_Texture_MAp_fortress_elves.png" id="1_tqxpd"]
+[ext_resource type="Script" path="res://teste.gd" id="3_oqxpb"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ncil2"]
 
@@ -90,8 +91,19 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[node name="BALISTA_LVL_1" type="StaticBody3D"]
-script = ExtResource("1_tgyt6")
+[sub_resource type="SphereMesh" id="SphereMesh_cy8lh"]
+radius = 0.1
+height = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j8k7w"]
+albedo_color = Color(0, 1, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_qy4g2"]
+radius = 0.1
+height = 0.2
+
+[node name="BALISTA_LVL_1" type="StaticBody3D" groups=["BalistaTower"]]
+script = ExtResource("1_a7ucq")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(0.31, 0, 0, 0, 0.31, 0, 0, 0, 0.31, 0, 0, 0)
@@ -115,7 +127,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0186825, 1.58843, 0)
 shape = SubResource("BoxShape3D_71owg")
 
 [node name="Marker3D" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.212083, -0.721875)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.54366, -0.360162)
 
 [node name="detected_enimies" type="Area3D" parent="."]
 
@@ -187,7 +199,6 @@ bones/7/rotation = Quaternion(-9.58657e-09, 9.58658e-09, -0.707107, 0.707107)
 bones/7/scale = Vector3(1, 1, 1)
 
 [node name="Torre" type="Node3D" parent="Balista_lvl_1/B_tower_1_rig/Skeleton3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Ballista_tower_LVL_1_001" type="MeshInstance3D" parent="Balista_lvl_1/B_tower_1_rig/Skeleton3D/Torre"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
@@ -195,10 +206,22 @@ mesh = SubResource("ArrayMesh_s6o7y")
 skin = SubResource("Skin_ag21w")
 skeleton = NodePath("../..")
 
-[node name="Marker3D" type="Marker3D" parent="Balista_lvl_1/B_tower_1_rig/Skeleton3D/Torre"]
+[node name="spawn_projectile_marker" type="Marker3D" parent="Balista_lvl_1/B_tower_1_rig/Skeleton3D/Torre"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1360.65, -170.946)
 
 [node name="Ballista_tower_LVL_1" type="MeshInstance3D" parent="Balista_lvl_1/B_tower_1_rig/Skeleton3D"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 mesh = SubResource("ArrayMesh_vgekf")
 skin = SubResource("Skin_ag21w")
+
+[node name="teste_line" type="Node3D" parent="."]
+script = ExtResource("3_oqxpb")
+
+[node name="GizmoY" type="MeshInstance3D" parent="teste_line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.21895, 0)
+mesh = SubResource("SphereMesh_cy8lh")
+
+[node name="Gizmo_floor" type="MeshInstance3D" parent="teste_line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.76446, 0)
+material_override = SubResource("StandardMaterial3D_j8k7w")
+mesh = SubResource("SphereMesh_qy4g2")

@@ -34,7 +34,7 @@ shadow_enabled = true
 [node name="Mundo" parent="." instance=ExtResource("1_r0mkq")]
 
 [node name="Centro" type="MeshInstance3D" parent="." groups=["teste"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.683029, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.506274, 0)
 material_override = SubResource("StandardMaterial3D_l04v0")
 mesh = SubResource("BoxMesh_kajjw")
 
@@ -55,3 +55,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55405, 0)
 
 [node name="Skeleton" parent="." instance=ExtResource("3_6lj85")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56.7844, 0, 0)
+
+[node name="Projectile_group" type="Node3D" parent="." groups=["Projectile_group"]]

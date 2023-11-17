@@ -1,10 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://qmrx7uy4jhuj"]
+[gd_scene load_steps=15 format=3 uid="uid://qmrx7uy4jhuj"]
 
 [ext_resource type="Script" path="res://script/player/Gimbal.gd" id="1_3mdlj"]
 [ext_resource type="Script" path="res://script/player/Player.gd" id="1_c5ajy"]
 [ext_resource type="Script" path="res://script/player/Raycast_Inputs.gd" id="2_e7bur"]
 [ext_resource type="Script" path="res://script/player/inteface_player/IntefaceManager.gd" id="4_xhadk"]
-[ext_resource type="FontFile" uid="uid://cxqlbf2o63iel" path="res://assets/Fontes/Qaz-Italic.otf" id="5_yt03k"]
+[ext_resource type="Script" path="res://script/player/inteface_player/Control_de_Compra.gd" id="5_a4arw"]
+[ext_resource type="Texture2D" uid="uid://cueo8fqky1umq" path="res://assets/Fontes/archery1.png" id="5_g3uir"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7k237"]
 albedo_color = Color(0, 1, 1, 1)
@@ -13,42 +14,33 @@ albedo_color = Color(0, 1, 1, 1)
 material = SubResource("StandardMaterial3D_7k237")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l12pf"]
-size = Vector2(1150, 101)
+size = Vector2(352, 52)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_maaei"]
+bg_color = Color(0.231373, 0.231373, 0.231373, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5euvb"]
+bg_color = Color(0.188235, 0.188235, 0.188235, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bv8b3"]
-bg_color = Color(0.32549, 0.588235, 0.337255, 1)
+bg_color = Color(0.34902, 0.34902, 0.34902, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r5qaw"]
-bg_color = Color(0.137255, 0.278431, 0.188235, 1)
-corner_radius_top_left = 7
-corner_radius_top_right = 7
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nw0uy"]
-corner_radius_top_left = 7
-corner_radius_top_right = 7
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp2an"]
-bg_color = Color(0.305882, 0.396078, 0.501961, 0.278431)
-corner_radius_top_left = 15
-corner_radius_top_right = 15
-corner_radius_bottom_right = 15
-corner_radius_bottom_left = 15
-shadow_color = Color(0, 0, 0, 0.227451)
-shadow_size = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_265am"]
-bg_color = Color(0.4, 0.4, 0.4, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_41oqc"]
-bg_color = Color(0.6, 0.6, 0.6, 0.443137)
-corner_radius_top_left = 15
-corner_radius_top_right = 15
-corner_radius_bottom_right = 15
-corner_radius_bottom_left = 15
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bxjgk"]
+bg_color = Color(0.211765, 0.211765, 0.211765, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5b3f8"]
 radius = 9.05539
@@ -85,144 +77,141 @@ grow_vertical = 2
 script = ExtResource("4_xhadk")
 
 [node name="Area2D" type="Area2D" parent="CanvasLayer/IntefaceManager"]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/IntefaceManager/Area2D"]
-position = Vector2(576, 597.5)
+visible = false
+position = Vector2(574, 573)
 shape = SubResource("RectangleShape2D_l12pf")
 
-[node name="Panel" type="Panel" parent="CanvasLayer/IntefaceManager"]
-custom_minimum_size = Vector2(0, 100)
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CanvasLayer/IntefaceManager/Area2D"]
+polygon = PackedVector2Array(398, 548, 398, 599, 430, 599, 426, 603, 426, 648, 726, 650, 726, 606, 723, 599, 749, 599, 749, 548)
+
+[node name="Control_de_Compra" type="Control" parent="CanvasLayer/IntefaceManager"]
+clip_contents = true
+custom_minimum_size = Vector2(600, 100)
 layout_mode = 1
-anchors_preset = 12
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
+offset_left = -300.0
 offset_top = -100.0
+offset_right = 300.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("5_a4arw")
+
+[node name="PanelBarra_de_cima" type="Panel" parent="CanvasLayer/IntefaceManager/Control_de_Compra"]
+layout_mode = 2
+offset_left = 122.5
+offset_right = 472.5
+offset_bottom = 50.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_maaei")
+
+[node name="HBoxCima" type="HBoxContainer" parent="CanvasLayer/IntefaceManager/Control_de_Compra/PanelBarra_de_cima"]
+custom_minimum_size = Vector2(350, 50)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -175.0
+offset_top = -50.0
+offset_right = 175.0
+offset_bottom = 1.52588e-05
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ButtonBalista" type="Button" parent="CanvasLayer/IntefaceManager/Control_de_Compra/PanelBarra_de_cima/HBoxCima"]
+texture_filter = 1
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_5euvb")
+text = "Balista"
+
+[node name="ButtonWizard" type="Button" parent="CanvasLayer/IntefaceManager/Control_de_Compra/PanelBarra_de_cima/HBoxCima"]
+texture_filter = 1
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_5euvb")
+text = "Wizard"
+
+[node name="Label" type="Label" parent="CanvasLayer/IntefaceManager/Control_de_Compra/PanelBarra_de_cima/HBoxCima"]
+visible = false
+layout_mode = 2
+text = "asdasd"
+
+[node name="Label2" type="Label" parent="CanvasLayer/IntefaceManager/Control_de_Compra/PanelBarra_de_cima/HBoxCima"]
+visible = false
+layout_mode = 2
+text = "dsfgasdgf"
+
+[node name="PanelBarra_de_baixo" type="Panel" parent="CanvasLayer/IntefaceManager/Control_de_Compra"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -50.0
+offset_right = 150.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_bv8b3")
 
-[node name="TabContainer" type="TabContainer" parent="CanvasLayer/IntefaceManager/Panel"]
-custom_minimum_size = Vector2(0, 100)
+[node name="HBoxBaixo" type="HBoxContainer" parent="CanvasLayer/IntefaceManager/Control_de_Compra/PanelBarra_de_baixo"]
+clip_contents = true
+custom_minimum_size = Vector2(300, 50)
 layout_mode = 1
-anchors_preset = 12
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 306.0
-offset_top = -131.0
+offset_left = -150.0
+offset_top = -50.0
+offset_right = 150.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_styles/tab_selected = SubResource("StyleBoxFlat_r5qaw")
-theme_override_styles/tab_unselected = SubResource("StyleBoxFlat_nw0uy")
-tab_alignment = 1
 
-[node name="Torres" type="HBoxContainer" parent="CanvasLayer/IntefaceManager/Panel/TabContainer"]
-layout_mode = 2
-theme_override_constants/separation = 120
-
-[node name="Control" type="Control" parent="CanvasLayer/IntefaceManager/Panel/TabContainer/Torres"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/IntefaceManager/Control_de_Compra/PanelBarra_de_baixo/HBoxBaixo"]
+clip_contents = true
 layout_mode = 2
 
-[node name="Button" type="Button" parent="CanvasLayer/IntefaceManager/Panel/TabContainer/Torres/Control"]
+[node name="Control" type="Control" parent="CanvasLayer/IntefaceManager/Control_de_Compra/PanelBarra_de_baixo/HBoxBaixo/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_direction = 1
 layout_mode = 2
-offset_left = 12.97
-offset_right = 112.97
-offset_bottom = 100.0
+
+[node name="ButtonTurrent" type="Button" parent="CanvasLayer/IntefaceManager/Control_de_Compra/PanelBarra_de_baixo/HBoxBaixo/HBoxContainer/Control"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.5
+offset_top = -22.5
+offset_right = 22.5
+offset_bottom = 22.5
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
-theme_override_fonts/font = ExtResource("5_yt03k")
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleBoxFlat_hp2an")
-theme_override_styles/hover = SubResource("StyleBoxFlat_265am")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_41oqc")
-text = "Balista"
-
-[node name="Control2" type="Control" parent="CanvasLayer/IntefaceManager/Panel/TabContainer/Torres"]
-layout_mode = 2
-
-[node name="Button" type="Button" parent="CanvasLayer/IntefaceManager/Panel/TabContainer/Torres/Control2"]
-layout_mode = 2
-offset_left = 12.97
-offset_right = 112.97
-offset_bottom = 100.0
-grow_horizontal = 2
-grow_vertical = 2
-focus_mode = 0
-theme_override_fonts/font = ExtResource("5_yt03k")
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleBoxFlat_hp2an")
-theme_override_styles/hover = SubResource("StyleBoxFlat_265am")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_41oqc")
-text = "Balista"
-
-[node name="Control3" type="Control" parent="CanvasLayer/IntefaceManager/Panel/TabContainer/Torres"]
-layout_mode = 2
-
-[node name="Button" type="Button" parent="CanvasLayer/IntefaceManager/Panel/TabContainer/Torres/Control3"]
-layout_mode = 2
-offset_left = 12.97
-offset_right = 112.97
-offset_bottom = 100.0
-grow_horizontal = 2
-grow_vertical = 2
-focus_mode = 0
-theme_override_fonts/font = ExtResource("5_yt03k")
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleBoxFlat_hp2an")
-theme_override_styles/hover = SubResource("StyleBoxFlat_265am")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_41oqc")
-text = "Balista"
-
-[node name="Control4" type="Control" parent="CanvasLayer/IntefaceManager/Panel/TabContainer/Torres"]
-layout_mode = 2
-
-[node name="Button" type="Button" parent="CanvasLayer/IntefaceManager/Panel/TabContainer/Torres/Control4"]
-layout_mode = 2
-offset_left = 12.97
-offset_right = 112.97
-offset_bottom = 100.0
-grow_horizontal = 2
-grow_vertical = 2
-focus_mode = 0
-theme_override_fonts/font = ExtResource("5_yt03k")
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleBoxFlat_hp2an")
-theme_override_styles/hover = SubResource("StyleBoxFlat_265am")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_41oqc")
-text = "Balista"
-
-[node name="Control5" type="Control" parent="CanvasLayer/IntefaceManager/Panel/TabContainer/Torres"]
-layout_mode = 2
-
-[node name="Button" type="Button" parent="CanvasLayer/IntefaceManager/Panel/TabContainer/Torres/Control5"]
-layout_mode = 2
-offset_left = 12.97
-offset_right = 112.97
-offset_bottom = 100.0
-grow_horizontal = 2
-grow_vertical = 2
-focus_mode = 0
-theme_override_fonts/font = ExtResource("5_yt03k")
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleBoxFlat_hp2an")
-theme_override_styles/hover = SubResource("StyleBoxFlat_265am")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_41oqc")
-text = "Balista"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/IntefaceManager/Panel/TabContainer"]
-visible = false
-layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_bxjgk")
+icon = ExtResource("5_g3uir")
+icon_alignment = 1
 
 [node name="Mouse_Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Area2D"]
 shape = SubResource("CircleShape2D_5b3f8")
 
-[connection signal="button_down" from="CanvasLayer/IntefaceManager/Panel/TabContainer/Torres/Control/Button" to="CanvasLayer/IntefaceManager" method="_on_button_button_down"]
-[connection signal="button_down" from="CanvasLayer/IntefaceManager/Panel/TabContainer/Torres/Control2/Button" to="CanvasLayer/IntefaceManager" method="_on_button_button_down"]
-[connection signal="button_down" from="CanvasLayer/IntefaceManager/Panel/TabContainer/Torres/Control3/Button" to="CanvasLayer/IntefaceManager" method="_on_button_button_down"]
-[connection signal="button_down" from="CanvasLayer/IntefaceManager/Panel/TabContainer/Torres/Control4/Button" to="CanvasLayer/IntefaceManager" method="_on_button_button_down"]
-[connection signal="button_down" from="CanvasLayer/IntefaceManager/Panel/TabContainer/Torres/Control5/Button" to="CanvasLayer/IntefaceManager" method="_on_button_button_down"]
+[connection signal="button_down" from="CanvasLayer/IntefaceManager/Control_de_Compra/PanelBarra_de_cima/HBoxCima/ButtonBalista" to="CanvasLayer/IntefaceManager/Control_de_Compra" method="_on_button_balista_button_down"]
+[connection signal="button_down" from="CanvasLayer/IntefaceManager/Control_de_Compra/PanelBarra_de_cima/HBoxCima/ButtonWizard" to="CanvasLayer/IntefaceManager/Control_de_Compra" method="_on_button_wizard_button_down"]
+[connection signal="button_down" from="CanvasLayer/IntefaceManager/Control_de_Compra/PanelBarra_de_baixo/HBoxBaixo/HBoxContainer/Control/ButtonTurrent" to="CanvasLayer/IntefaceManager/Control_de_Compra" method="_on_button_turrent_button_down"]
