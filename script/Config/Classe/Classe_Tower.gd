@@ -19,7 +19,7 @@ var Life_Tower : float = 0
 
 var launchPoint
 var projectile
-var launchSpeed = -5.0
+var ProjectileArrowSpeed : float = 10.0
 
 enum StateTower {
 	Searching,
@@ -27,15 +27,11 @@ enum StateTower {
 	Detected
 }
 
-var CurrentStateTower = StateTower.Searching
 
-func Change_State(CurentState):
-	match CurentState:
-		StateTower.Searching:
-			pass
-		StateTower.Atirar:
-			pass
-			
+
+
+	
+
 			
 			
 			
@@ -58,21 +54,28 @@ func raycast(pos,target_):
 
 
 
-func spawn(marker3D : Vector3,velocity : Vector3, gravity : Vector3):
+func spawn(marker3D ,velocity : Vector3, gravity : Vector3):
 	var obj = ARROW.instantiate()
 	obj.velocity = velocity
 	obj.gravity = gravity
-	get_tree().get_first_node_in_group("Projectile_group").add_child(obj)
-	obj.global_transform.origin = marker3D
 	
-func chama (Player,speed,target,_target_velocity):
-	var pos = Trajectory.intercept_position($Player.global_transform.origin, $UI/Views/ProjectileSpeedHSlider.value, $Target.global_transform.origin, _target_velocity)
+	get_tree().get_first_node_in_group("Projectile_group").add_child(obj)
+	obj.global_rotation = marker3D.global_rotation
+	obj.global_transform.origin = marker3D.global_transform.origin
+	
+func Intercept_trajectory (_Dictionary : Dictionary):
+	var Player = _Dictionary["Marker"]
+	var speed = _Dictionary["Speed"]
+	var target = _Dictionary["Pos_Target"]
+	var _target_velocity = _Dictionary["_target_velocity"]
+	var Marker = _Dictionary["Marker"]
+	var pos = Trajectory.intercept_position(Player.global_transform.origin, speed, target, _target_velocity)
 	
 	if not pos:
-		print("--------if")
+		print(pos)
 		
 	else:
-		print("--------else")
-		#spawn($Player.global_transform.origin.direction_to(pos) * $UI/Views/ProjectileSpeedHSlider.value, Vector3.ZERO)
+		
+		spawn(Marker,Player.global_transform.origin.direction_to(pos) * speed, Vector3.ZERO)
 
 

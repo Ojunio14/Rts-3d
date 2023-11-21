@@ -51,7 +51,7 @@ mesh = SubResource("BoxMesh_kajjw")
 [node name="Player" parent="." instance=ExtResource("1_4fdu4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55405, 0)
 
-[node name="Build" type="Node3D" parent="."]
+[node name="Build" type="Node3D" parent="." groups=["group_Build"]]
 
 [node name="Skeleton" parent="." instance=ExtResource("3_6lj85")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56.7844, 0, 0)

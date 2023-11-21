@@ -1,10 +1,11 @@
-[gd_scene load_steps=18 format=3 uid="uid://c3etbcqlxf421"]
+[gd_scene load_steps=20 format=3 uid="uid://c3etbcqlxf421"]
 
 [ext_resource type="Script" path="res://script/World/Building/Tower/TorresObject.gd" id="1_a7ucq"]
 [ext_resource type="Texture2D" uid="uid://c0t34objqk4s4" path="res://assets/building/turret/balista/Balista_lvl_1_Texture_MAp_fortress_elves.png" id="1_tqxpd"]
 [ext_resource type="Script" path="res://teste.gd" id="3_oqxpb"]
-[ext_resource type="Script" path="res://script/Config/state_machine_finite/StateMachine.gd" id="4_h714b"]
-[ext_resource type="Script" path="res://script/Config/state_machine_finite/Tower/TowerSearching.gd" id="5_ff8m0"]
+[ext_resource type="Script" path="res://script/Config/state_machine_finite/StateMachine.gd" id="4_1lxl0"]
+[ext_resource type="Script" path="res://script/Config/state_machine_finite/Tower/TowerSearching.gd" id="5_mrw26"]
+[ext_resource type="Script" path="res://script/Config/state_machine_finite/Tower/TowerAttacking.gd" id="6_wxem2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ncil2"]
 
@@ -73,6 +74,9 @@ bind/6/pose = Transform3D(4.87802e-13, 1.19209e-05, 100, 100, -8.74228e-06, 6.60
 bind/7/name = &"root_2"
 bind/7/bone = -1
 bind/7/pose = Transform3D(-100, 8.74228e-06, -6.60024e-13, 1.77234e-13, 9.20944e-06, 100, 8.74228e-06, 100, -7.54979e-06, 29.2537, -1344.86, -180.879)
+
+[sub_resource type="BoxMesh" id="BoxMesh_njlj6"]
+size = Vector3(100, 102.905, 50)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_vgekf"]
 resource_name = "Balista_lvl_1_Ballista_tower_LVL_1"
@@ -203,13 +207,16 @@ bones/7/scale = Vector3(1, 1, 1)
 [node name="Torre" type="Node3D" parent="Balista_lvl_1/B_tower_1_rig/Skeleton3D"]
 
 [node name="Ballista_tower_LVL_1_001" type="MeshInstance3D" parent="Balista_lvl_1/B_tower_1_rig/Skeleton3D/Torre"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0)
 mesh = SubResource("ArrayMesh_s6o7y")
 skin = SubResource("Skin_ag21w")
 skeleton = NodePath("../..")
 
 [node name="spawn_projectile_marker" type="Marker3D" parent="Balista_lvl_1/B_tower_1_rig/Skeleton3D/Torre"]
-transform = Transform3D(1, 0, 0, 0, 0.634731, -0.772734, 0, 0.772734, 0.634731, 0, 1360.65, -170.946)
+transform = Transform3D(1, 0, 0, 0, 0.899558, 0.436802, 0, -0.436802, 0.899558, 0, 1340.86, -230.87)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Balista_lvl_1/B_tower_1_rig/Skeleton3D/Torre/spawn_projectile_marker"]
+mesh = SubResource("BoxMesh_njlj6")
 
 [node name="Ballista_tower_LVL_1" type="MeshInstance3D" parent="Balista_lvl_1/B_tower_1_rig/Skeleton3D"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
@@ -228,10 +235,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.76446, 0)
 material_override = SubResource("StandardMaterial3D_j8k7w")
 mesh = SubResource("SphereMesh_qy4g2")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Time_shoot" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
 
 [node name="StateMachine" type="Node3D" parent="."]
-script = ExtResource("4_h714b")
+script = ExtResource("4_1lxl0")
 
 [node name="TowerSearching" type="Node3D" parent="StateMachine"]
-script = ExtResource("5_ff8m0")
+script = ExtResource("5_mrw26")
+
+[node name="TowerAttacking" type="Node3D" parent="StateMachine"]
+script = ExtResource("6_wxem2")

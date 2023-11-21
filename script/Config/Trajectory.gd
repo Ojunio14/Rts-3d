@@ -1,6 +1,11 @@
 extends Node
 
-
+## Calculates the position of an object at the time it intercepts its target
+## 
+## origin [Vector3]: Position of follower
+## velocity [Vector3]: Velocity of follower
+## target [Vector3]: Position of target
+## target_velocity [Vector3]: Velocity of target
 
 static func intercept_position(origin : Vector3, speed : float, target : Vector3, target_velocity := Vector3.ZERO):
 	if target_velocity == Vector3.ZERO:
@@ -13,6 +18,15 @@ static func intercept_position(origin : Vector3, speed : float, target : Vector3
 
 	return null
 
+
+## Calculates the time required to intercept another object
+## 
+## origin [Vector3]: Position of follower
+## velocity [Vector3]: Velocity of follower
+## target [Vector3]: Position of target
+## target_velocity [Vector3]: Velocity of target
+##
+## Returns either the time ([float]) or NAN.
 
 static func intercept_time(origin : Vector3, speed : float, target : Vector3, target_velocity := Vector3.ZERO) -> float:
 	if target_velocity == Vector3.ZERO:

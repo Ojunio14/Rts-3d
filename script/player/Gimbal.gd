@@ -26,6 +26,7 @@ func _input(event):
 		if event is InputEventMouseMotion:
 			if event.relative.x != 0:
 				rotate_object_local(Vector3.UP, -event.relative.x * mouse_sensitivity)
+
 			if event.relative.y != 0:
 				var y_rotation = clamp(-event.relative.y, -30, 30)
 				innergimbal.rotate_object_local(Vector3.RIGHT, y_rotation * mouse_sensitivity)

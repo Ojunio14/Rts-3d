@@ -1,13 +1,11 @@
 extends Node3D
 class_name State
-var Player
+var Balista
 signal  Transitioned
-var is_runnig = false
-var Current_Value
-var direction : Vector3
+
 
 func _ready() -> void:
-	Player = get_tree().get_first_node_in_group("Player")
+	Balista = get_parent().get_parent()
 
 func Enter():
 	

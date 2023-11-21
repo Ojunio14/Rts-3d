@@ -10,7 +10,7 @@ var Buildind_no_chao = false
 var CurrentSpawnable : StaticBody3D
 var AbleBuilding : bool = true
 
-
+var excluir_node : bool = false
 
 func _physics_process(delta: float) -> void:
 	
@@ -20,29 +20,21 @@ func _physics_process(delta: float) -> void:
 		var from = camera.project_ray_origin(get_viewport().get_mouse_position())
 		var to = from + camera.project_ray_normal(get_viewport().get_mouse_position()) * 1000
 		var cursorPos = Plane(Vector3.UP, transform.origin.y).intersects_ray(from, to)
-		#print(vec3.get_object().position)
 		var vec3 = cursorPos
 		if vec3 != null:
 			CurrentSpawnable.global_position = Vector3(round(vec3.x),vec3.y,round(vec3.z))#Vector3(vec3.x,0,vec3.z)
 			CurrentSpawnable.activeBuildingObject = true
-		#print(vec3)
-		
-		if AbleBuilding:
-			#get_tree().root.get_node("Main/teste1").global_position = cursorPos#
-			#print(Vector3(round(vec3.x),0,round(vec3.z)))
-			
-			if Input.is_action_just_pressed("destroy"):
-				CurrentSpawnable.queue_free()
+		if Input.is_action_just_pressed("destroy"):
+				excluir_node = true
+				CurrentSpawnable.queue_free()#queue_free()#
 				GameManager.CurrentState = GameManager.State.Play
-			
+		if AbleBuilding:
 			if Input.is_action_just_pressed("MouseLeft") :
 				var obj := CurrentSpawnable.duplicate()
 				
 				get_tree().root.get_node("Scene_Main/Build").add_child(obj)
 				obj.activeBuildingObject = false
 				obj.global_position = CurrentSpawnable.global_position
-				
-
 func Spawn_Balista_tower() -> void:
 	SpawnOBj(BALISTA_TOWER)
 func Spawn_Wizard_tower() -> void:
