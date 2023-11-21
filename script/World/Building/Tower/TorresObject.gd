@@ -11,7 +11,7 @@ var time: Timer
 @onready var time_shoot: Timer = $Time_shoot
 
 
-var point
+
 var _target_prev_pos #$Target.global_transform.origin
 var _target_velocity = Vector3.ZERO
 
@@ -53,7 +53,7 @@ func _ready() -> void:
 	$Collision_Area_Building.connect("area_exited",Callable(self, "on_area_exited"))
 	
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 #	if self.name != "BALISTA_LVL_1":
 #		if can_fire:
 #			var vec3 =TARGET.global_position
@@ -77,7 +77,7 @@ func _process(delta: float) -> void:
 		
 		
 
-func _physics_process(delta) -> void:
+func _physics_process(_delta) -> void:
 #	if TARGET != null:
 
 
@@ -157,12 +157,13 @@ func Detected_State():
 	pass
 
 func timeout() -> void:
-	var vec3 =TARGET.global_position
-	var cast = raycast(spawn_projectile_marker.global_position,TARGET.global_position)
-	
-	var c = cast["position"]
-	Intercept_Dictionary["Pos_Target"] = Vector3(c.x,c.y + 0.1,c.z)#cast["position"]
-	Intercept_Dictionary["_target_velocity"] = _target_velocity
-	Intercept_trajectory(Intercept_Dictionary)
-	is_attacking = false
-	
+#	var vec3 = TARGET.global_position
+#	var cast = raycast(spawn_projectile_marker.global_position,TARGET.global_position)
+#
+#	var c = cast["position"]
+#	Intercept_Dictionary["Pos_Target"] = Vector3(c.x,c.y + 0.1,c.z)#cast["position"]
+#	Intercept_Dictionary["_target_velocity"] = _target_velocity
+#	Intercept_trajectory(Intercept_Dictionary)
+#	is_attacking = false
+#
+	pass

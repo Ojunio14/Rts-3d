@@ -52,7 +52,7 @@ func _process(delta):
 	#move camera
 	move_cam(delta)
 
-func move_cam(delta):
+func move_cam(_delta):
 	#get inputs
 	if Input.is_action_pressed("W"):
 		move.z = lerp(move.z,-speed, acceleration)

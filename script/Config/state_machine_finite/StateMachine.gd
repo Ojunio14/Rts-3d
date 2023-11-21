@@ -34,13 +34,10 @@ func _process(delta: float) -> void:
 	
 
 	if get_parent().name != "BALISTA_LVL_1" and get_parent().get_parent().is_in_group("group_Build"):#get_parent().get_parent().is_in_group("group_Build")
-		print(Current_State)
 		
 		#if self.has_node("TowerSearching"):
-		if Current_State != null:
-			print("ola--1")
+#		if Current_State != null:
 			if Current_State.is_inside_tree():
-				print("ola--2")
 				if Current_State:
 					
 					Current_State.Update(delta)
@@ -48,7 +45,7 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if get_parent().name != "BALISTA_LVL_1" and get_parent().get_parent().is_in_group("group_Build"):
 		
-		if Current_State != null:
+#		if Current_State != null:
 			if Current_State.is_inside_tree():
 				if Current_State:
 					Current_State.Physics_Update(delta)

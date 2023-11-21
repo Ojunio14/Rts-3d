@@ -11,7 +11,6 @@ var can_fire = false
 var target_atirar
 var activeBuildingObject : bool
 var objects : Array
-var target = null
 
 
 var Weapons : int = 0

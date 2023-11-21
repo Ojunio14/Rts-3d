@@ -11,9 +11,9 @@ func _ready() -> void:
 	
 func set_movement_target(movement_target: Vector3):
 	navigation_agent.set_target_position(movement_target)
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	set_movement_target(Vector3(0,0,0))
-func _physics_process(delta):
+func _physics_process(_delta):
 	if navigation_agent.is_navigation_finished():
 		return
 

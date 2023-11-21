@@ -12,7 +12,7 @@ var AbleBuilding : bool = true
 
 var excluir_node : bool = false
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	
 	if GameManager.CurrentState == GameManager.State.Buildling:
 		

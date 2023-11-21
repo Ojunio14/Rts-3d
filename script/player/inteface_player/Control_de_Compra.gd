@@ -14,11 +14,11 @@ func _ready() -> void:
 
 
 
-func on_area2D_entered(area):
+func on_area2D_entered(_area):
 	BuildManager.AbleBuilding = false
 	pass
 	
-func on_area2D_exited(area):
+func on_area2D_exited(_area):
 	BuildManager.AbleBuilding = true
 	pass
 

@@ -9,7 +9,7 @@ func Enter():
 	pass
 
 
-func Update(delta : float):
+func Update(_delta : float):
 		
 	var vec3 = Balista.TARGET.global_position
 	#var cast = raycast(spawn_projectile_marker.global_position,TARGET.global_position)

@@ -189,14 +189,14 @@ func _draw_point_and_line()->void:
 	
 	var mouse_pos = result["position"]
 	if mouse_pos != null:
-		var mouse_pos_V3:Vector3 = mouse_pos
+#		var mouse_pos_V3:Vector3 = mouse_pos
 		#points.append(point(mouse_pos_V3,0.05))
 		
 		#If there are at least 2 points...
 		if points.size() > 1:
 			#Draw a line from the position of the last point placed to the position of the second to last point placed
-			var point1 = points[points.size()-1]
-			var point2 = points[points.size()-2]
+#			var point1 = points[points.size()-1]
+#			var point2 = points[points.size()-2]
 			#var line = line(point1.position, point2.position)
 			lines.append(line)
 
