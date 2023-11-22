@@ -55,7 +55,7 @@ script = ExtResource("1_teu87")
 [node name="Wizard_tower_LVL_1" type="Node3D" parent="."]
 
 [node name="W_tower_1_rig" type="Node3D" parent="Wizard_tower_LVL_1"]
-transform = Transform3D(0.2, 0, 0, 0, -8.74228e-09, -0.2, 0, 0.2, -8.74228e-09, 0, 0, 0)
+transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0, 0, 0)
 
 [node name="Skeleton3D" type="Skeleton3D" parent="Wizard_tower_LVL_1/W_tower_1_rig"]
 bones/0/name = "Door_1"

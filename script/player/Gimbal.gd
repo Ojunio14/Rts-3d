@@ -25,11 +25,14 @@ func _input(event):
 	if Input.is_action_pressed("rotate_cam"):
 		if event is InputEventMouseMotion:
 			if event.relative.x != 0:
-				rotate_object_local(Vector3.UP, -event.relative.x * mouse_sensitivity)
+				print("x")
+				$InnerGimbal.rotate_y( -event.relative.x * mouse_sensitivity)
+#				rotate_object_local(Vector3.UP, -event.relative.x * mouse_sensitivity)
 
-			if event.relative.y != 0:
-				var y_rotation = clamp(-event.relative.y, -30, 30)
-				innergimbal.rotate_object_local(Vector3.RIGHT, y_rotation * mouse_sensitivity)
+#			if event.relative.y != 0:
+#
+#				var y_rotation = clamp(-event.relative.y, -30, 30)
+#				innergimbal.rotate_object_local(Vector3.RIGHT, y_rotation * mouse_sensitivity)
 	if Input.is_action_pressed("move_cam"):
 		if event is InputEventMouseMotion:
 #			move.x -= event.relative.x * drag_speed

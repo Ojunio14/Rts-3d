@@ -34,9 +34,9 @@ func _process(delta: float) -> void:
 	
 
 	if get_parent().name != "BALISTA_LVL_1" and get_parent().get_parent().is_in_group("group_Build"):#get_parent().get_parent().is_in_group("group_Build")
-		
+		call_deferred("free")
 		#if self.has_node("TowerSearching"):
-#		if Current_State != null:
+		if Current_State != null:
 			if Current_State.is_inside_tree():
 				if Current_State:
 					

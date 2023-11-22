@@ -1,11 +1,8 @@
-[gd_scene load_steps=20 format=3 uid="uid://c3etbcqlxf421"]
+[gd_scene load_steps=17 format=3 uid="uid://c3etbcqlxf421"]
 
 [ext_resource type="Script" path="res://script/World/Building/Tower/TorresObject.gd" id="1_a7ucq"]
 [ext_resource type="Texture2D" uid="uid://c0t34objqk4s4" path="res://assets/building/turret/balista/Balista_lvl_1_Texture_MAp_fortress_elves.png" id="1_tqxpd"]
 [ext_resource type="Script" path="res://teste.gd" id="3_oqxpb"]
-[ext_resource type="Script" path="res://script/Config/state_machine_finite/StateMachine.gd" id="4_1lxl0"]
-[ext_resource type="Script" path="res://script/Config/state_machine_finite/Tower/TowerSearching.gd" id="5_mrw26"]
-[ext_resource type="Script" path="res://script/Config/state_machine_finite/Tower/TowerAttacking.gd" id="6_wxem2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ncil2"]
 
@@ -141,10 +138,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.54366, -0.360162)
 shape = SubResource("SphereShape3D_a7nsy")
 
 [node name="Balista_lvl_1" type="Node3D" parent="."]
-transform = Transform3D(0.26, 0, 0, 0, 0.26, 0, 0, 0, 0.26, 0, 0, 0)
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
 
 [node name="B_tower_1_rig" type="Node3D" parent="Balista_lvl_1"]
-transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
 [node name="Skeleton3D" type="Skeleton3D" parent="Balista_lvl_1/B_tower_1_rig"]
 bones/0/name = "Door_1"
@@ -238,12 +235,3 @@ mesh = SubResource("SphereMesh_qy4g2")
 [node name="Time_shoot" type="Timer" parent="."]
 wait_time = 0.2
 one_shot = true
-
-[node name="StateMachine" type="Node3D" parent="."]
-script = ExtResource("4_1lxl0")
-
-[node name="TowerSearching" type="Node3D" parent="StateMachine"]
-script = ExtResource("5_mrw26")
-
-[node name="TowerAttacking" type="Node3D" parent="StateMachine"]
-script = ExtResource("6_wxem2")

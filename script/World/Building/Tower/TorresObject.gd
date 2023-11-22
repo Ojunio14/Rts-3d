@@ -1,45 +1,30 @@
 extends "res://script/Config/Classe/Classe_Tower.gd"
+#Este Script herdando atributos da Classe Tower
+#Script da Torre de Baslista
 
-var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
-#@onready var collision_area_building: Area3D = $"../Collision_Area_Building"
+#------------------------------Onready-------------------------------------------
 @onready var detected_enimies: Area3D = $detected_enimies
-#/Ballista_tower_LVL_1_001
-var time: Timer
 @onready var torre: Node3D = $Balista_lvl_1/B_tower_1_rig/Skeleton3D/Torre
 @onready var spawn_projectile_marker: Marker3D = $Balista_lvl_1/B_tower_1_rig/Skeleton3D/Torre/spawn_projectile_marker
-
 @onready var time_shoot: Timer = $Time_shoot
 
-
-
+#------------------------------Variaveis-------------------------------------------
+#========variaveis para o projectile===
 var _target_prev_pos #$Target.global_transform.origin
 var _target_velocity = Vector3.ZERO
-
-var TimeAttacking : bool = false
-
-var TARGET = null
-
-var CurrentStateTower = Searching
-
-
-var is_attacking : bool = false
-
-enum {
-	Searching,
-	Attacking
-	
-	
-	
-}
-
 var Intercept_Dictionary : Dictionary = {
 	"Pos_Initial" : Vector3(),
 	"Speed" : ProjectileArrowSpeed,
 	"Pos_Target" : Vector3(),
 	"_target_velocity" : _target_velocity,
 	"Marker" : Object
-	
-}
+	}
+#======================================
+
+var TimeAttacking : bool = false
+var TARGET = null
+var CurrentStateTower = StateTower.Searching
+var is_attacking : bool = false
 
 
 func _ready() -> void:
@@ -54,94 +39,62 @@ func _ready() -> void:
 	
 
 func _process(_delta: float) -> void:
-#	if self.name != "BALISTA_LVL_1":
-#		if can_fire:
-#			var vec3 =TARGET.global_position
-#			var cast = raycast(spawn_projectile_marker.global_position,TARGET.global_position)
-#			#print(cast["position"])
-#			#point = cast["position"] - 
-#			torre.look_at(Vector3(vec3.x,transform.origin.y,vec3.z),Vector3.UP)#transform.origin.y
-#
-#	if Input.is_action_just_pressed("destroy"):
-#
-#		var pos_initial = spawn_projectile_marker.global_transform.origin
-#		if TARGET != null:
-#			var vec3 =TARGET.global_position
-#			var cast = raycast(spawn_projectile_marker.global_position,TARGET.global_position)
-#			var pos_target = cast["position"]
-#			#pos_target = Vector3(pos_target.x,pos_target.y + 0.5,pos_target.z)
-#			Intercept_trajectory(spawn_projectile_marker,ProjectileArrowSpeed,pos_target,_target_velocity,spawn_projectile_marker)
-#			#spawn(spawn_projectile_marker,point,delta,gravity)
-#
-			pass
-		
-		
-
-func _physics_process(_delta) -> void:
-#	if TARGET != null:
-
-
-	#Change_State(CurrentStateTower,delta)
-
 	pass
 
-
+func _physics_process(delta) -> void:
+	Change_State(CurrentStateTower,delta)
 	
-
+#------------------------------Funçoes do State Machine dessa Tower-------------------------------------------
+#vai decidir qual vai ser o state da Torre
 func set_State_Tower(Current) -> void:
 	match Current:
-		Searching:
-			CurrentStateTower = Searching
+		StateTower.Searching:
+			CurrentStateTower = StateTower.Searching
 			pass
-		Attacking:
-			CurrentStateTower = Attacking
-			
-			pass
+		StateTower.Attacking:
+			CurrentStateTower = StateTower.Attacking
 
-
-
-
+#vai excultar a mudança decidida do set_State_Tower
 func Change_State(CurentState,delta):
 	match CurentState:
-		Searching:
+		StateTower.Searching:
 			pass
-		Attacking:
+		StateTower.Attacking:
 			_Func_State_Attacking(delta)
 
-
+#------abaixor vai ter todos os EStados da Torre-----
 func _Func_State_Attacking(delta) -> void:
 	_target_velocity = (TARGET.global_transform.origin - _target_prev_pos) / delta
 	_target_prev_pos = TARGET.global_transform.origin
 
+#vai olhar para o alvo que estive dentro da area da torre
 	var vec3 = TARGET.global_position
 	torre.look_at(Vector3(vec3.x,transform.origin.y,vec3.z),Vector3.UP)#transform.origin.y
 
+#vai spawna os projectile da Torre
 	if not is_attacking:
 		time_shoot.start()
 		is_attacking = true
-	
 
+#------------------------------Funçoes  de Sginal da Area3D-------------------------------------------
+#verifica se enimies entrou dentro da area da Tower
 func on_body_entered(body):
-	if body.is_in_group("enimies"):
-		#set_State_Tower(Attacking)
+	if body.is_in_group("enimies") and self.name != "BALISTA_LVL_1" :
+		set_State_Tower(StateTower.Attacking)
 		TARGET = body
 		_target_prev_pos = body.global_transform.origin
 
-
-
 func on_body_exited(body):
-	if body.is_in_group("enimies"):
-		set_State_Tower(Searching)
-	
-	pass
+	if body.is_in_group("enimies") and self.name != "BALISTA_LVL_1":
+		set_State_Tower(StateTower.Searching)
 
+#-------------------------------------------
+#verifica se area desse object esta colidindo com outro oBject
 func on_area_entered(area):
 	if area.name == "Collision_Area_Building":
 		if activeBuildingObject:
 			BuildManager.AbleBuilding = false
 			objects.append(area)
-	
-
 
 func on_area_exited(area):
 	if area.name == "Collision_Area_Building":
@@ -149,21 +102,15 @@ func on_area_exited(area):
 			objects.remove_at(objects.find(area))
 			if objects.size() <= 0:
 				BuildManager.AbleBuilding = true
-	
 
-
+#------------------------------Onready-------------------------------------------
 
 func Detected_State():
 	pass
 
 func timeout() -> void:
-#	var vec3 = TARGET.global_position
-#	var cast = raycast(spawn_projectile_marker.global_position,TARGET.global_position)
-#
-#	var c = cast["position"]
-#	Intercept_Dictionary["Pos_Target"] = Vector3(c.x,c.y + 0.1,c.z)#cast["position"]
-#	Intercept_Dictionary["_target_velocity"] = _target_velocity
-#	Intercept_trajectory(Intercept_Dictionary)
-#	is_attacking = false
-#
-	pass
+	var RayCast = raycast(spawn_projectile_marker.global_position,TARGET.global_position)
+	Intercept_Dictionary["Pos_Target"] = Vector3(RayCast["position"].x, RayCast["position"].y + 0.1, RayCast["position"].z)
+	Intercept_Dictionary["_target_velocity"] = _target_velocity
+	Intercept_trajectory(Intercept_Dictionary)
+	is_attacking = false

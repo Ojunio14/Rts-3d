@@ -1,94 +1,76 @@
 extends Node3D
-
-
-
-
+#------------------------------PackedScene-------------------------------------------
+#Carregas Scenes das Towes
 var BALISTA_TOWER : PackedScene = ResourceLoader.load("res://scene/scene_world/build/turret/balista/balista_lvl_1.tscn")#ResourceLoader.load("res://scene/scene_world/build/turret/balista/balista_lvl_1.tscn")
 var WIZARD_TOWER : PackedScene = ResourceLoader.load("res://scene/scene_world/build/turret/Wizard/Wizard_lvl_1.tscn")
 
-var Buildind_no_chao = false
+#CurrentSpawnable Variavel onde vai ter a Scene de uma Torre
 var CurrentSpawnable : StaticBody3D
 var AbleBuilding : bool = true
 
-var excluir_node : bool = false
+#--------------------------------------------------------------
 
 func _physics_process(_delta: float) -> void:
-	
+#Verifica se estou no modo de Construçao
 	if GameManager.CurrentState == GameManager.State.Buildling:
-		
-		var camera = get_viewport().get_camera_3d()
-		var from = camera.project_ray_origin(get_viewport().get_mouse_position())
-		var to = from + camera.project_ray_normal(get_viewport().get_mouse_position()) * 1000
-		var cursorPos = Plane(Vector3.UP, transform.origin.y).intersects_ray(from, to)
-		var vec3 = cursorPos
-		if vec3 != null:
-			CurrentSpawnable.global_position = Vector3(round(vec3.x),vec3.y,round(vec3.z))#Vector3(vec3.x,0,vec3.z)
+		var RayCast = Ray_Cast_Plane()
+		if RayCast != null:
+			#CurrentSpawnable e uma Scene é vai receber a Position do mouse
+			#CurrentSpawnable.activeBuildingObject
+			CurrentSpawnable.global_position = Vector3(round(RayCast.x),RayCast.y,round(RayCast.z))#Vector3(vec3.x,0,vec3.z)
 			CurrentSpawnable.activeBuildingObject = true
+		#Destroy Scene que estiver recebendo as cordenadas do mouse 
 		if Input.is_action_just_pressed("destroy"):
-				excluir_node = true
-				CurrentSpawnable.queue_free()#queue_free()#
+				
+				CurrentSpawnable.queue_free()
 				GameManager.CurrentState = GameManager.State.Play
+		#Verifica se area das Construçoes nao estao se colidindo
 		if AbleBuilding:
 			if Input.is_action_just_pressed("MouseLeft") :
 				var obj := CurrentSpawnable.duplicate()
-				
 				get_tree().root.get_node("Scene_Main/Build").add_child(obj)
 				obj.activeBuildingObject = false
 				obj.global_position = CurrentSpawnable.global_position
+
+#------------------------------Instanciaçao das Scenes-------------------------------------------
+
+#essas scenes vao ser chamadas nos Script Controle_de_Compra
 func Spawn_Balista_tower() -> void:
 	SpawnOBj(BALISTA_TOWER)
+
 func Spawn_Wizard_tower() -> void:
 	SpawnOBj(WIZARD_TOWER)
 
-
-
-func SpawnOBj(obj):
+#function usada para instancia as Scenes
+func SpawnOBj(obj : PackedScene):
+#Obj vai receber uma PackedScene
 	if CurrentSpawnable != null:
 		CurrentSpawnable.queue_free()
 	CurrentSpawnable = obj.instantiate()
 	get_tree().root.get_node("Scene_Main/Build").add_child(CurrentSpawnable)
 	GameManager.CurrentState = GameManager.State.Buildling
-	
 
+#------------------------------Ray_Cast-------------------------------------------
+#====Essas Duas Functions fazem um RayCast====
 
-
-
-
-func RaycastMouse(type):
-
-
-	
+#Faz um RayCast da camera ate o mouse
+func Ray_Cast_Mouse():
 	var space_state = get_world_3d().direct_space_state
 	var cam = get_viewport().get_camera_3d()
 	var mousepos = get_viewport().get_mouse_position()
-
 	var origin = cam.project_ray_origin(mousepos)
 	var end = origin + cam.project_ray_normal(mousepos) * 1000#RAY_LENGTH
 	var query = PhysicsRayQueryParameters3D.create(origin, end)
 	#query.collide_with_areas = true
-
 	var result = space_state.intersect_ray(query)
 	if not result.is_empty():
-		if type == 0:
-			
 			return result["position"]
-		
-		
-func mouse():
-	#var space_state = get_world_3d().direct_space_state
+
+#Faz um RayCast da camera ate o mouse Usando Um Plane
+func Ray_Cast_Plane() -> Vector3:
+
 	var camera = get_viewport().get_camera_3d()
 	var from = camera.project_ray_origin(get_viewport().get_mouse_position())
-	var to = from + camera.project_ray_normal(get_viewport().get_mouse_position())
-	var Cursopos = Plane(Vector3.UP, transform.origin.y).intersects_ray(from,to)
-#	var query = PhysicsRayQueryParameters3D.create(from, to)
-#	var result = space_state.intersect_ray(query)
-	
-	return Cursopos
-
-#	var space_state = get_world_3d().direct_space_state
-#	var cam = get_viewport().get_camera_3d()
-#	var mousepos = get_viewport().get_mouse_position()
-#
-#	var origin = cam.project_ray_origin(mousepos)
-#	var end = origin + cam.project_ray_normal(mousepos) * 1000#RAY_LENGTH
-#	var query = PhysicsRayQueryParameters3D.create(origin, end)
+	var to = from + camera.project_ray_normal(get_viewport().get_mouse_position()) * 1000
+	var cursorPos = Plane(Vector3.UP, transform.origin.y).intersects_ray(from, to)
+	return cursorPos
