@@ -1,12 +1,20 @@
-[gd_scene load_steps=6 format=3 uid="uid://civxrhvwl12ic"]
+[gd_scene load_steps=9 format=3 uid="uid://civxrhvwl12ic"]
 
 [ext_resource type="Script" path="res://script/Entities/script_enimies/Skeleton.gd" id="1_h3ca0"]
 [ext_resource type="Script" path="res://script/Config/state_machine_finite/StateMachine.gd" id="2_po3vb"]
 [ext_resource type="Script" path="res://script/Config/state_machine_finite/enimies/Walk.gd" id="3_wchxo"]
+[ext_resource type="PackedScene" uid="uid://csoupw66jlfvi" path="res://scene/GUI/Todos_menus/progress_bar_life.tscn" id="4_6ukag"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0fpq3"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_osdny"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ff7ia"]
+radius = 0.595
+height = 2.17
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_yu4qe"]
+viewport_path = NodePath("SubViewport")
 
 [node name="Skeleton" type="CharacterBody3D" groups=["enimies"]]
 script = ExtResource("1_h3ca0")
@@ -20,9 +28,30 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.790383, 0)
 mesh = SubResource("CapsuleMesh_osdny")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 10.0
+target_desired_distance = 15.0
+avoidance_enabled = true
+debug_enabled = true
+debug_path_custom_color = Color(1, 0.0313726, 1, 1)
 
 [node name="StateMachine" type="Node3D" parent="."]
 script = ExtResource("2_po3vb")
 
 [node name="WalkSkeleton" type="Node3D" parent="StateMachine"]
 script = ExtResource("3_wchxo")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.787915, 0)
+shape = SubResource("CapsuleShape3D_ff7ia")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.04206, 0)
+billboard = 2
+texture = SubResource("ViewportTexture_yu4qe")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+
+[node name="ProgressBarLife" parent="SubViewport" instance=ExtResource("4_6ukag")]

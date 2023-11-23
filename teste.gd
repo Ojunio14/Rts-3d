@@ -13,12 +13,14 @@ var lines:Array
 var mouse_line: MeshInstance3D
 var mouse_line2: MeshInstance3D
 
-var enimies = null
+
+#vai receber o Object dos enimies
+var enimies : Object = null
 var result = null
 func  _ready() -> void:
 	#get_parent().draw_lines_target.connect(Draw_and_Moviment)
 	call_deferred("_init_mouse_line")
-	enimies = get_tree().get_first_node_in_group("enimies")
+		
 #func _input(event: InputEvent) -> void:
 #	if event.is_action_pressed("move_cam"):
 #		if GameManager.Current_State_Tower == GameManager.Estado_para_Atirar.manual:
@@ -32,11 +34,14 @@ func  _ready() -> void:
 #			_clear_points_and_lines()
 
 func _process(_delta: float) -> void:
+
 	match GameManager.Current_State_Tower:
 		GameManager.Estado_para_Atirar.manual:
 			Desenha_Linha_Com_Gizmos(0)
 		GameManager.Estado_para_Atirar.automatico:
-			Desenha_Linha_Com_Gizmos(1)
+			if get_parent().lista_alvos != []:
+				enimies = get_parent().lista_alvos[0]
+				Desenha_Linha_Com_Gizmos(1)
 
 
 #------------------------------Onready-------------------------------------------
@@ -82,7 +87,7 @@ func movement_gizmo(type,type_ray_cast : int):
 		line_horizontal(Vector3(vec3.x,0,vec3.z))
 		gizmo_y.visible = true
 		gizmo_floor.global_position = Vector3(vec3.x,0,vec3.z)
-		gizmo_y.global_position = Vector3(vec3.x, vec3.y + 0.3, vec3.z)
+		gizmo_y.global_position = Vector3(vec3.x, vec3.y + 0.3 , vec3.z)#
 		
 
 #------------------------------RayCast-------------------------------------------
@@ -98,9 +103,14 @@ func RayCastMouse(type):
 	var spaceState = get_world_3d().direct_space_state
 	var MousePos = get_viewport().get_mouse_position()
 	var camera = get_viewport().get_camera_3d()
+	
 	var RayOrigin = camera.project_ray_origin(MousePos)
 	var RayEnd = RayOrigin + camera.project_ray_normal(MousePos) *2000
-	var rayArray = spaceState.intersect_ray(PhysicsRayQueryParameters3D.create(RayOrigin, RayEnd))
+	
+	var query = PhysicsRayQueryParameters3D.create(RayOrigin, RayEnd)
+	#query.exclude = [get_tree()]
+	var rayArray = spaceState.intersect_ray(query)
+	
 	if not rayArray.is_empty():
 		if type == 0:
 			return rayArray

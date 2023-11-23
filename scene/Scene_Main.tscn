@@ -59,10 +59,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55405, 0)
 [node name="wizard_lvl_1" parent="." instance=ExtResource("4_bi4dd")]
 
 [node name="Skeleton" parent="." instance=ExtResource("3_6lj85")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58.4242, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.0924, 0, 0)
 
 [node name="Skeleton2" parent="." instance=ExtResource("3_6lj85")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 33.885)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 28.056)
 
 [node name="Skeleton3" parent="." instance=ExtResource("3_6lj85")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -42.5586)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -40.5003)
+
+[node name="Skeleton4" parent="." instance=ExtResource("3_6lj85")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -18.9366)
+
+[node name="Skeleton5" parent="." instance=ExtResource("3_6lj85")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.6815, 0, -19.9001)
+
+[node name="Skeleton6" parent="." instance=ExtResource("3_6lj85")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.8064, 0, 29.2399)
+
+[node name="Skeleton7" parent="." instance=ExtResource("3_6lj85")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.0981, 0, 10.1418)

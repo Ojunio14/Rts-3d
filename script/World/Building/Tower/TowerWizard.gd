@@ -8,6 +8,13 @@ extends "res://script/Config/Classe/Classe_Tower.gd"
 @onready var spawn_projectile_marker: Marker3D = $spawn_projectile_marker
 @onready var time_shoot: Timer = $Time_shoot
 
+enum {	IniciarTime,
+		EsperaTime,
+		StopTime,
+		Searching
+	
+	}
+var CurrentTime = IniciarTime
 #------------------------------Variaveis-------------------------------------------
 #========variaveis para o projectile===
 var _target_prev_pos #$Target.global_transform.origin
@@ -20,12 +27,15 @@ var Intercept_Dictionary : Dictionary = {
 	"Marker" : Object
 	}
 #======================================
+#momento em
+var TimeAttacking : bool = true
+#var TARGET = null
 
-var TimeAttacking : bool = false
-var TARGET = null
+
 var CurrentStateTower = StateTower.Attacking
 var is_attacking : bool = false
-
+# pega adiciona lista de inimies que netra na area
+var lista_alvos : Array = []
 
 func _ready() -> void:
 	detected_enimies.body_entered.connect(on_body_entered)
@@ -88,25 +98,44 @@ func _Func_State_Attacking(delta) -> void:
 				Trajetoria(GameManager.Estado_para_Atirar.manual)
 				
 		GameManager.Estado_para_Atirar.automatico:
-			if TARGET != null:
-				_target_velocity = (TARGET.global_transform.origin - _target_prev_pos) / delta
-				_target_prev_pos = TARGET.global_transform.origin
-			if not is_attacking:
-				time_shoot.start()
-				is_attacking = true
+#			print(lista_alvos)
+			
+			if lista_alvos != [] :
+				if lista_alvos[0] != null:
+					_target_prev_pos = lista_alvos[0].global_transform.origin
+					_target_velocity = (lista_alvos[0].global_transform.origin - _target_prev_pos) / delta
+
+					match CurrentTime:
+						IniciarTime:
+							time_shoot.start()
+							CurrentTime = EsperaTime
+							TimeAttacking = false
+							
+						EsperaTime:
+#							print(lista_alvos,"var ------", TimeAttacking)
+							if lista_alvos != [] and TimeAttacking:
+								CurrentTime = IniciarTime
+							
+							pass
+						StopTime:
+							pass
+					#if not TimeAttacking:
+		#				temporizador para spawn os projectiles
+						
+						#TimeAttacking = true
 
 #------------------------------Funçoes  de Sginal da Area3D-------------------------------------------
 #verifica se enimies entrou dentro da area da Tower
 func on_body_entered(body):
 	if body.is_in_group("enimies") and self.name != "BALISTA_LVL_1" :
 		set_State_Tower(StateTower.Attacking)
-		TARGET = body
-		_target_prev_pos = body.global_transform.origin
+		lista_alvos.append(body)
+#		_target_prev_pos = lista_alvos[0]
 
 func on_body_exited(body):
 	if body.is_in_group("enimies") and self.name != "BALISTA_LVL_1":
-		set_State_Tower(StateTower.Searching)
-
+		#set_State_Tower(StateTower.Searching)
+		pass
 #-------------------------------------------
 #verifica se area desse object esta colidindo com outro oBject
 func on_area_entered(area):
@@ -132,13 +161,18 @@ func timeout() -> void:
 
 func Trajetoria(type : int) -> void:
 	var RayCast
+	
 	if type == 0:
 		RayCast = RayCastMouse(0)
+	
 	elif type == 1:
-		if TARGET != null:
-			RayCast = raycast(spawn_projectile_marker.global_position,TARGET.global_position)
+		if lista_alvos != []:
+			RayCast = raycast(spawn_projectile_marker.global_position,lista_alvos[0].global_position)
+	
 	if RayCast != null:
-		Intercept_Dictionary["Pos_Target"] = Vector3(RayCast["position"].x, RayCast["position"].y + 0.1, RayCast["position"].z)
+		
+		Intercept_Dictionary["Pos_Target"] = Vector3(RayCast["position"].x, RayCast["position"].y, RayCast["position"].z)
 		Intercept_Dictionary["_target_velocity"] = _target_velocity
 		Intercept_trajectory(Intercept_Dictionary)
-		is_attacking = false
+		CurrentTime = EsperaTime
+		TimeAttacking = true

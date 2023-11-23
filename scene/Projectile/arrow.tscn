@@ -1,13 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://b4lipmuarw115"]
+[gd_scene load_steps=9 format=3 uid="uid://b4lipmuarw115"]
 
 [ext_resource type="Script" path="res://script/script_projectile/arrow.gd" id="1_bptl6"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_4l76n"]
 radius = 0.25
 height = 0.5
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_x8qko"]
-radius = 0.25
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cva7i"]
 
@@ -47,16 +44,18 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_2hwod")
 
-[node name="Arrow" type="CharacterBody3D"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_exg37"]
+radius = 0.25
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_x8qko"]
+radius = 0.25
+
+[node name="Arrow" type="CharacterBody3D" groups=["projectile"]]
 script = ExtResource("1_bptl6")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("SphereMesh_4l76n")
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
-shape = SubResource("SphereShape3D_x8qko")
 
 [node name="Ballista_shell" type="Node3D" parent="."]
 visible = false
@@ -68,3 +67,13 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 
 material_override = SubResource("StandardMaterial3D_cva7i")
 mesh = SubResource("ArrayMesh_ubf37")
 skeleton = NodePath("")
+
+[node name="Projectile_Area" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Projectile_Area"]
+shape = SubResource("SphereShape3D_exg37")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("SphereShape3D_x8qko")
+disabled = true

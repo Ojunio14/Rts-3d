@@ -3,10 +3,10 @@ extends Node3D
 @onready var camera = $InnerGimbal/Camera
 @onready var innergimbal = $InnerGimbal
 
-@export var max_zoom := 3.0
-@export var min_zoom := 0.5
-@export var zoom_speed := 0.08
-var zoom := 1.5
+@export var max_zoom := 55.0
+@export var min_zoom := 30.0
+@export var zoom_speed := 0.9
+var zoom := 35.0
 
 @export var speed := 0.3
 @export var drag_speed = 0.005
@@ -40,21 +40,26 @@ func _input(event):
 			pass
 	
 	if event.is_action_pressed("zoom_in"):
-		zoom -= zoom_speed
+		zoom -= zoom_speed 
+		print(zoom)
 	if event.is_action_pressed("zoom_out"):
 		zoom += zoom_speed
 	zoom = clamp(zoom, min_zoom, max_zoom)
 
-
+var pe
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	#zoom camera
-	scale = lerp(scale, Vector3.ONE * zoom, zoom_speed)
+	#scale
+	pe = lerp(scale, Vector3.ONE * zoom, zoom_speed)
+	print(zoom_speed * delta)
+	camera.size = pe.y
+	
 	#clamp rotation
 	innergimbal.rotation.x = clamp(innergimbal.rotation.x, -1.1, 0.3)
 	#move camera
-	move_cam(delta)
-
+#	move_cam(delta)
+	
 func move_cam(_delta):
 	#get inputs
 	if Input.is_action_pressed("W"):

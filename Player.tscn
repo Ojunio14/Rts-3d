@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://qmrx7uy4jhuj"]
+[gd_scene load_steps=15 format=3 uid="uid://qmrx7uy4jhuj"]
 
 [ext_resource type="Script" path="res://script/player/Player.gd" id="1_c5ajy"]
 [ext_resource type="Script" path="res://script/player/Raycast_Inputs.gd" id="2_e7bur"]
+[ext_resource type="Script" path="res://script/player/Gimbal.gd" id="3_g2n3g"]
 [ext_resource type="Script" path="res://script/player/inteface_player/IntefaceManager.gd" id="4_xhadk"]
 [ext_resource type="Script" path="res://script/player/inteface_player/Control_de_Compra.gd" id="5_a4arw"]
 [ext_resource type="Texture2D" uid="uid://cueo8fqky1umq" path="res://assets/Fontes/archery1.png" id="5_g3uir"]
@@ -51,6 +52,7 @@ script = ExtResource("1_c5ajy")
 script = ExtResource("2_e7bur")
 
 [node name="Gimbal" type="Node3D" parent="."]
+script = ExtResource("3_g2n3g")
 
 [node name="InnerGimbal" type="Node3D" parent="Gimbal"]
 

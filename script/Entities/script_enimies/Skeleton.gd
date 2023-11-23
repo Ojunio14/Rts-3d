@@ -1,10 +1,12 @@
 extends CharacterBody3D
 
+var life : float = 10.0
 
-@export var movement_speed: float = 4.0
+@export var movement_speed: float = 2.0
 @onready var navigation_agent: NavigationAgent3D = get_node("NavigationAgent3D")
 
 func _ready() -> void:
+	$Area3D.connect("body_entered",Callable(self,"_on_area_3d_body_entered"))
 	navigation_agent.velocity_computed.connect(Callable(_on_velocity_computed))
 	
 	
@@ -12,6 +14,11 @@ func _ready() -> void:
 func set_movement_target(movement_target: Vector3):
 	navigation_agent.set_target_position(movement_target)
 func _process(_delta: float) -> void:
+	$SubViewport/ProgressBarLife.value = life
+	if life <= 0:
+		get_tree().get_first_node_in_group("WizardTower").lista_alvos.pop_front()
+		queue_free()
+		
 	set_movement_target(Vector3(0,0,0))
 func _physics_process(_delta):
 	if navigation_agent.is_navigation_finished():
@@ -28,3 +35,14 @@ func _physics_process(_delta):
 func _on_velocity_computed(safe_velocity: Vector3):
 	velocity = safe_velocity
 	move_and_slide()
+
+
+func _on_area_3d_body_entered(body) -> void:
+#	print(life)
+#	if body.is_in_group("projectile"):
+#
+#		life = life - body.dano
+#
+#		if life <= 0 :
+#			queue_free()
+	pass
