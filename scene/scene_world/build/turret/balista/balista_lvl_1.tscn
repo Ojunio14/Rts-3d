@@ -95,15 +95,15 @@ _surfaces = [{
 blend_shape_mode = 0
 
 [sub_resource type="SphereMesh" id="SphereMesh_cy8lh"]
-radius = 0.1
-height = 0.2
+radius = 1.0
+height = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j8k7w"]
 albedo_color = Color(0, 1, 1, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_qy4g2"]
-radius = 0.1
-height = 0.2
+radius = 1.0
+height = 2.0
 
 [node name="BALISTA_LVL_1" type="StaticBody3D" groups=["BalistaTower"]]
 script = ExtResource("1_a7ucq")

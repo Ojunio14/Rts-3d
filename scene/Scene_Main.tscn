@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://qmrx7uy4jhuj" path="res://Player.tscn" id="1_4fdu4"]
 [ext_resource type="PackedScene" uid="uid://cuvoec8uui8to" path="res://scene/scene_world/mundo.tscn" id="1_r0mkq"]
 [ext_resource type="PackedScene" uid="uid://civxrhvwl12ic" path="res://scene/Entities/scene_enimies/skeleton.tscn" id="3_6lj85"]
-[ext_resource type="PackedScene" uid="uid://cipvugrqluvwu" path="res://assets/building/turret/wizard/Wizard_tower_LVL_1.glb" id="4_gb73m"]
+[ext_resource type="PackedScene" uid="uid://8odsomqntb2o" path="res://scene/scene_world/build/turret/Wizard/Wizard_lvl_1.tscn" id="4_bi4dd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mr8hk"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -54,11 +54,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55405, 0)
 
 [node name="Build" type="Node3D" parent="." groups=["group_Build"]]
 
-[node name="Skeleton" parent="." instance=ExtResource("3_6lj85")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56.7844, 0, 0)
-
 [node name="Projectile_group" type="Node3D" parent="." groups=["Projectile_group"]]
 
-[node name="Wizard_tower_LVL_1" parent="." instance=ExtResource("4_gb73m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.26845)
-visible = false
+[node name="wizard_lvl_1" parent="." instance=ExtResource("4_bi4dd")]
+
+[node name="Skeleton" parent="." instance=ExtResource("3_6lj85")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58.4242, 0, 0)
+
+[node name="Skeleton2" parent="." instance=ExtResource("3_6lj85")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 33.885)
+
+[node name="Skeleton3" parent="." instance=ExtResource("3_6lj85")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -42.5586)

@@ -4,10 +4,12 @@ var path_balista : Array = [
 		
 		]
 
+
+
+
 var is_selected_building = false
 func _ready() -> void:
 	get_node("Raycast_Inputs").mouseLeftClick.connect(sinal_Mouse_left_click)
-
 
 
 func sinal_Mouse_left_click() -> void:

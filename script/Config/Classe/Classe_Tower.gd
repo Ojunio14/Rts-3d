@@ -33,6 +33,28 @@ func raycast(pos,target_):
 	var result = space_state.intersect_ray(query)
 	return result
 
+func RayCastMouse(type):
+	var spaceState = get_world_3d().direct_space_state
+	var MousePos = get_viewport().get_mouse_position()
+	var camera = get_viewport().get_camera_3d()
+	var RayOrigin = camera.project_ray_origin(MousePos)
+	var RayEnd = RayOrigin + camera.project_ray_normal(MousePos) *2000
+	var rayArray = spaceState.intersect_ray(PhysicsRayQueryParameters3D.create(RayOrigin, RayEnd))
+	if not rayArray.is_empty():
+		if type == 0:
+			return rayArray
+#			if rayArray["collider"].name != "Player":
+#				if rayArray.has("position"):
+#					pass
+		elif type == 1:
+
+			if rayArray["collider"].name != "Player":
+				if rayArray.has("position"):
+					return rayArray["position"]
+
+
+
+
 #------------------------------Funçoes para calculor da trajetoria do projectile-------------------------------------------
 
 func spawn(marker3D ,velocity : Vector3, gravity : Vector3):

@@ -1,96 +1,11 @@
 extends Node3D
 
-
-@onready var spawn_projectile_marker: Marker3D = $"../Balista_lvl_1/B_tower_1_rig/Skeleton3D/Torre/spawn_projectile_marker"
-
-
-
-
+#------------------------------Onready-------------------------------------------
+@onready var spawn_projectile_marker: Marker3D = $"../spawn_projectile_marker"
 @onready var gizmo_y: MeshInstance3D = $GizmoY
 @onready var gizmo_floor: MeshInstance3D = $Gizmo_floor
 
 #@onready var marker_3d: Marker3D = $"../Marker3D"
-
-func  _ready() -> void:
-	#get_parent().draw_lines_target.connect(Draw_and_Moviment)
-	call_deferred("_init_mouse_line")
-
-
-
-
-func Draw_and_Moviment() -> void:
-	var enimies = get_tree().get_first_node_in_group("enimies")
-	var result = raycast(spawn_projectile_marker.global_position, enimies.global_position)
-	
-	if result["collider"].name == "floor":
-		_update_mouse_line(spawn_projectile_marker.global_position)
-		movement_gizmo(0)
-		#Mouse_Vec transform.origin.y,
-
-		
-	if not result["collider"].name == "floor":
-		#Vector3(gizmo_position.x,gizmo_position,gizmo_position.z)#Mouse_Vec transform.origin.y,
-		_update_mouse_line(spawn_projectile_marker.global_position)
-
-		movement_gizmo(1)
-
-func movement_gizmo(type):
-	var enimies = get_tree().get_first_node_in_group("enimies")
-	var result = raycast(spawn_projectile_marker.global_position, enimies.global_position)
-	result = result["position"]
-	if type == 0:
-#		if result["collider"].name = "floor":
-			
-		gizmo_y.visible = false
-		gizmo_floor.global_position = Vector3(result.x,0,result.z)
-			
-	elif type == 1:
-		var vec3 = Vector3(result.x,0,result.z)
-		line_horizontal(vec3)
-		gizmo_y.visible = true
-		gizmo_floor.global_position = vec3
-		gizmo_y.global_position = result
-		
-		
-		
-		pass
-
-func raycast(pos,target_):
-	var space_state = get_world_3d().direct_space_state
-	var query = PhysicsRayQueryParameters3D.create(pos, target_)
-	var result = space_state.intersect_ray(query)
-	return result
-
-
-#func RayCastMouse(type):
-#	var spaceState = get_world_3d().direct_space_state
-#	var MousePos = get_viewport().get_mouse_position()
-#	var camera = get_viewport().get_camera_3d()
-#	var RayOrigin = camera.project_ray_origin(MousePos)
-#	var RayEnd = RayOrigin + camera.project_ray_normal(MousePos) *2000
-#	var rayArray = spaceState.intersect_ray(PhysicsRayQueryParameters3D.create(RayOrigin, RayEnd))
-#
-#	if not rayArray.is_empty():
-#		if type == 0:
-#			return rayArray
-##			if rayArray["collider"].name != "Player":
-##				if rayArray.has("position"):
-##					pass
-#		elif type == 1:
-#
-#			if rayArray["collider"].name != "Player":
-#				if rayArray.has("position"):
-#					return rayArray["position"]
-#
-
-
-#@onready var spawn_projectile_marker: Marker3D = $"../canhao/base/Base_Default_0/Head_Default_0/Spawn_Projectile_Marker"
-
-
-
-#@onready var spawn_projectile_marker: Marker3D = $"../Morteiro/Node3D/Group_Marker/Spawn_Projectile_Marker"
-
-
 
 var points:Array
 var lines:Array
@@ -98,22 +13,110 @@ var lines:Array
 var mouse_line: MeshInstance3D
 var mouse_line2: MeshInstance3D
 
+var enimies = null
+var result = null
+func  _ready() -> void:
+	#get_parent().draw_lines_target.connect(Draw_and_Moviment)
+	call_deferred("_init_mouse_line")
+	enimies = get_tree().get_first_node_in_group("enimies")
+#func _input(event: InputEvent) -> void:
+#	if event.is_action_pressed("move_cam"):
+#		if GameManager.Current_State_Tower == GameManager.Estado_para_Atirar.manual:
+#			_draw_point_and_line()
+#
+#
+#	if event.is_action_pressed("move_cam"):
+#
+#		if GameManager.Current_State_Tower == GameManager.Estado_para_Atirar.manual:
+#
+#			_clear_points_and_lines()
 
-	
-	
 func _process(_delta: float) -> void:
-	Draw_and_Moviment()
-	pass
+	match GameManager.Current_State_Tower:
+		GameManager.Estado_para_Atirar.manual:
+			Desenha_Linha_Com_Gizmos(0)
+		GameManager.Estado_para_Atirar.automatico:
+			Desenha_Linha_Com_Gizmos(1)
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("move_cam"):
-		_draw_point_and_line()
-		pass
-	if event.is_action_pressed("move_cam"):
-		_clear_points_and_lines()
-		pass
+
+#------------------------------Onready-------------------------------------------
+#vai chama a funçao a para desenha linhas e a fuçao de movimentaçao dos gizmo
+func Desenha_Linha_Com_Gizmos(tipo_ray_cast) -> void:
+	if tipo_ray_cast == 0:
+		result = RayCastMouse(0)
+	elif tipo_ray_cast == 1:
+		if enimies != null:
+			result = RayCast(spawn_projectile_marker.global_position, enimies.global_position)
+		else:
+			result = null
+
+	if result != null:
+		if result["collider"].name == "floor":
+			_update_mouse_line(spawn_projectile_marker.global_position)
+			movement_gizmo(0,tipo_ray_cast)
+
+		if not result["collider"].name == "floor":
+			#Vector3(gizmo_position.x,gizmo_position,gizmo_position.z)#Mouse_Vec transform.origin.y,
+			_update_mouse_line(spawn_projectile_marker.global_position)
+			movement_gizmo(1,tipo_ray_cast)
+
+#funçao para movimenta os gizmos
+func movement_gizmo(type,type_ray_cast : int):
+
+	var vec3
+	match type_ray_cast:
+		0:
+			result = RayCastMouse(0)
+			vec3 = result["position"]
+		1:
+			result = RayCast(spawn_projectile_marker.global_position, enimies.global_position)
+			vec3  = result["position"]
+
+	if type == 0:
+#	Movimenta so o gizmo azul
+		gizmo_y.visible = false
+		gizmo_floor.global_position = Vector3(vec3.x,0,vec3.z)
+			
+	elif type == 1:
+#		movimenta os dois gizmos
+		line_horizontal(Vector3(vec3.x,0,vec3.z))
+		gizmo_y.visible = true
+		gizmo_floor.global_position = Vector3(vec3.x,0,vec3.z)
+		gizmo_y.global_position = Vector3(vec3.x, vec3.y + 0.3, vec3.z)
+		
+
+#------------------------------RayCast-------------------------------------------
+
+func RayCast(pos,target_):
+	var space_state = get_world_3d().direct_space_state
+	var query = PhysicsRayQueryParameters3D.create(pos, target_)
+	var result = space_state.intersect_ray(query)
+	return result
+
+#RayCast para Mouse personalizado
+func RayCastMouse(type):
+	var spaceState = get_world_3d().direct_space_state
+	var MousePos = get_viewport().get_mouse_position()
+	var camera = get_viewport().get_camera_3d()
+	var RayOrigin = camera.project_ray_origin(MousePos)
+	var RayEnd = RayOrigin + camera.project_ray_normal(MousePos) *2000
+	var rayArray = spaceState.intersect_ray(PhysicsRayQueryParameters3D.create(RayOrigin, RayEnd))
+	if not rayArray.is_empty():
+		if type == 0:
+			return rayArray
+#			if rayArray["collider"].name != "Player":
+#				if rayArray.has("position"):
+#					pass
+		elif type == 1:
+
+			if rayArray["collider"].name != "Player":
+				if rayArray.has("position"):
+					return rayArray["position"]
+
+
+
 #Returns the position in 3d that the mouse is hovering, or null if it isnt hovering anything
-func get_mouse_pos():
+func RayCastMouse2():
 	var space_state = get_parent().get_world_3d().get_direct_space_state()
 	var mouse_position = get_viewport().get_mouse_position()
 	var camera = get_tree().root.get_camera_3d()
@@ -133,62 +136,76 @@ func get_mouse_pos():
 		return rayDic["position"]
 	return null
 
+#------------------------------Funçoes para desenha lines-------------------------------------------
+
 func _init_mouse_line():
 	#await _init_mouse_line()
 	#return _init_mouse_line()
 	mouse_line = line(Vector3.ZERO, Vector3.ZERO, Color.BLACK)
 	mouse_line2 = line(Vector3.ZERO, Vector3.ZERO, Color.BLACK)
-	pass
-		
+
 func _update_mouse_line(vari):
-
-	var enimies = get_tree().get_first_node_in_group("enimies")
-	var result = raycast(spawn_projectile_marker.global_position, enimies.global_position)
-	
-	var mouse_pos = result["position"]
-
-
+	match GameManager.Current_State_Tower:
+		0:
+			result = RayCastMouse(0)
+			
+		1:
+			result = RayCast(spawn_projectile_marker.global_position, enimies.global_position)
+			
+	#result = RayCast(spawn_projectile_marker.global_position, enimies.global_position)
 	var material := ORMMaterial3D.new()
 	var mouse_line_immediate_mesh = mouse_line.mesh as ImmediateMesh
-	if mouse_pos != null:
+	if result["position"] != null:
 		#material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 		material.albedo_color = Color.WEB_GREEN
 		#mouse_line_immediate_mesh.surface_set_color(Color.WEB_GREEN)
-		
-		var mouse_pos_V3:Vector3 = mouse_pos
 		mouse_line_immediate_mesh.clear_surfaces()
 		mouse_line_immediate_mesh.surface_begin(Mesh.PRIMITIVE_LINES)
 		mouse_line_immediate_mesh.surface_add_vertex(vari)
-		mouse_line_immediate_mesh.surface_add_vertex(mouse_pos_V3)
+		mouse_line_immediate_mesh.surface_add_vertex(result["position"])
 		mouse_line_immediate_mesh.surface_end()
 		#mouse_line_immediate_mesh.surface_begin(Mesh.PRIMITIVE_LINES,)
 		#mouse_line_immediate_mesh.	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 		#material.albedo_color = color
+
 func  line_horizontal(vari):
-	var enimies = get_tree().get_first_node_in_group("enimies")
-	var result = raycast(spawn_projectile_marker.global_position, enimies.global_position)
+	#result = RayCast(spawn_projectile_marker.global_position, enimies.global_position)
+
+
+	match GameManager.Current_State_Tower:
+		0:
+			result = RayCastMouse(0)
+			
+		1:
+			result = RayCast(spawn_projectile_marker.global_position, enimies.global_position)
+			
+
 	
-	var mouse_pos = result["position"]
 	var material := ORMMaterial3D.new()
 	var mouse_line_immediate_mesh = mouse_line2.mesh as ImmediateMesh
-	if mouse_pos != null:
+	if result["position"] != null:
 		#material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 		material.albedo_color = Color.WEB_GREEN
 		#mouse_line_immediate_mesh.surface_set_color(Color.WEB_GREEN)
 		
-		var mouse_pos_V3:Vector3 = mouse_pos
 		mouse_line_immediate_mesh.clear_surfaces()
 		mouse_line_immediate_mesh.surface_begin(Mesh.PRIMITIVE_LINES)
 		mouse_line_immediate_mesh.surface_add_vertex(vari)
-		mouse_line_immediate_mesh.surface_add_vertex(mouse_pos_V3)
+		mouse_line_immediate_mesh.surface_add_vertex(result["position"])
 		mouse_line_immediate_mesh.surface_end()
 
 func _draw_point_and_line()->void:
-	var enimies = get_tree().get_first_node_in_group("enimies")
-	var result = raycast(spawn_projectile_marker.global_position, enimies.global_position)
+	#result = RayCast(spawn_projectile_marker.global_position, enimies.global_position)
 	
-	var mouse_pos = result["position"]
-	if mouse_pos != null:
+	match GameManager.Current_State_Tower:
+		0:
+			result = RayCastMouse(0)
+			
+		1:
+			result = RayCast(spawn_projectile_marker.global_position, enimies.global_position)
+			
+	
+	if result["position"] != null:
 #		var mouse_pos_V3:Vector3 = mouse_pos
 		#points.append(point(mouse_pos_V3,0.05))
 		
