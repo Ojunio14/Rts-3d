@@ -140,7 +140,7 @@ func RayCastMouse2():
 	params.collision_mask = 1
 	params.exclude = []
 	
-	var rayDic = space_state.intersect_ray(params)	
+	var rayDic = space_state.intersect_ray(params)
 	
 	if rayDic.has("position"):
 		return rayDic["position"]

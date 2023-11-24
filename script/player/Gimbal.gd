@@ -27,21 +27,22 @@ func _input(event):
 			if event.relative.x != 0:
 				print("x")
 				$InnerGimbal.rotate_y( -event.relative.x * mouse_sensitivity)
-#				rotate_object_local(Vector3.UP, -event.relative.x * mouse_sensitivity)
+				rotate_object_local(Vector3.UP, -event.relative.x * mouse_sensitivity)
 
 #			if event.relative.y != 0:
 #
 #				var y_rotation = clamp(-event.relative.y, -30, 30)
 #				innergimbal.rotate_object_local(Vector3.RIGHT, y_rotation * mouse_sensitivity)
-	if Input.is_action_pressed("move_cam"):
-		if event is InputEventMouseMotion:
+#	if Input.is_action_pressed("move_cam"):
+#		if event is InputEventMouseMotion:
 #			move.x -= event.relative.x * drag_speed
 #			move.z -= event.relative.y * drag_speed
-			pass
-	
+#			pass
+
+
 	if event.is_action_pressed("zoom_in"):
 		zoom -= zoom_speed 
-		print(zoom)
+		
 	if event.is_action_pressed("zoom_out"):
 		zoom += zoom_speed
 	zoom = clamp(zoom, min_zoom, max_zoom)
@@ -52,7 +53,7 @@ func _process(delta):
 	#zoom camera
 	#scale
 	pe = lerp(scale, Vector3.ONE * zoom, zoom_speed)
-	print(zoom_speed * delta)
+	
 	camera.size = pe.y
 	
 	#clamp rotation

@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://81r1bw0i4v37"]
+[gd_scene load_steps=11 format=3 uid="uid://81r1bw0i4v37"]
 
 [ext_resource type="PackedScene" uid="uid://qmrx7uy4jhuj" path="res://Player.tscn" id="1_4fdu4"]
+[ext_resource type="Script" path="res://script/World/Level_Main.gd" id="1_k5ep6"]
 [ext_resource type="PackedScene" uid="uid://cuvoec8uui8to" path="res://scene/scene_world/mundo.tscn" id="1_r0mkq"]
 [ext_resource type="PackedScene" uid="uid://civxrhvwl12ic" path="res://scene/Entities/scene_enimies/skeleton.tscn" id="3_6lj85"]
 [ext_resource type="PackedScene" uid="uid://8odsomqntb2o" path="res://scene/scene_world/build/turret/Wizard/Wizard_lvl_1.tscn" id="4_bi4dd"]
@@ -32,7 +33,42 @@ environment = SubResource("Environment_itkkw")
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 58.3623, 0)
 shadow_enabled = true
 
-[node name="Mundo" parent="." instance=ExtResource("1_r0mkq")]
+[node name="Level_Main" type="Node3D" parent="."]
+script = ExtResource("1_k5ep6")
+
+[node name="Grupo_Enimies" type="Node3D" parent="Level_Main"]
+
+[node name="Skeleton" parent="Level_Main/Grupo_Enimies" instance=ExtResource("3_6lj85")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.0924, 0, 0)
+
+[node name="Skeleton2" parent="Level_Main/Grupo_Enimies" instance=ExtResource("3_6lj85")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 28.056)
+
+[node name="Skeleton3" parent="Level_Main/Grupo_Enimies" instance=ExtResource("3_6lj85")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -40.5003)
+
+[node name="Skeleton4" parent="Level_Main/Grupo_Enimies" instance=ExtResource("3_6lj85")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -18.9366)
+
+[node name="Skeleton5" parent="Level_Main/Grupo_Enimies" instance=ExtResource("3_6lj85")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.6815, 0, -19.9001)
+
+[node name="Skeleton6" parent="Level_Main/Grupo_Enimies" instance=ExtResource("3_6lj85")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.8064, 0, 29.2399)
+
+[node name="Skeleton7" parent="Level_Main/Grupo_Enimies" instance=ExtResource("3_6lj85")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.0981, 0, 10.1418)
+
+[node name="Mundo" parent="Level_Main" instance=ExtResource("1_r0mkq")]
+
+[node name="Player" parent="Level_Main" instance=ExtResource("1_4fdu4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55405, 0)
+
+[node name="Projectile_group" type="Node3D" parent="Level_Main" groups=["Projectile_group"]]
+
+[node name="Build" type="Node3D" parent="Level_Main" groups=["group_Build"]]
+
+[node name="wizard_lvl_1" parent="Level_Main/Build" instance=ExtResource("4_bi4dd")]
 
 [node name="Centro" type="MeshInstance3D" parent="." groups=["teste"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.506274, 0)
@@ -48,33 +84,3 @@ mesh = SubResource("BoxMesh_kajjw")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2148, 0.683029, 0)
 material_override = SubResource("StandardMaterial3D_l04v0")
 mesh = SubResource("BoxMesh_kajjw")
-
-[node name="Player" parent="." instance=ExtResource("1_4fdu4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55405, 0)
-
-[node name="Build" type="Node3D" parent="." groups=["group_Build"]]
-
-[node name="Projectile_group" type="Node3D" parent="." groups=["Projectile_group"]]
-
-[node name="wizard_lvl_1" parent="." instance=ExtResource("4_bi4dd")]
-
-[node name="Skeleton" parent="." instance=ExtResource("3_6lj85")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.0924, 0, 0)
-
-[node name="Skeleton2" parent="." instance=ExtResource("3_6lj85")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 28.056)
-
-[node name="Skeleton3" parent="." instance=ExtResource("3_6lj85")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -40.5003)
-
-[node name="Skeleton4" parent="." instance=ExtResource("3_6lj85")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -18.9366)
-
-[node name="Skeleton5" parent="." instance=ExtResource("3_6lj85")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.6815, 0, -19.9001)
-
-[node name="Skeleton6" parent="." instance=ExtResource("3_6lj85")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.8064, 0, 29.2399)
-
-[node name="Skeleton7" parent="." instance=ExtResource("3_6lj85")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.0981, 0, 10.1418)

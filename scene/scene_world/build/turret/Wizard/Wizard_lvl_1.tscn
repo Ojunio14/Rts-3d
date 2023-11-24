@@ -58,11 +58,15 @@ albedo_color = Color(1, 0, 1, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_noytq"]
 material = SubResource("StandardMaterial3D_56smo")
+radius = 0.25
+height = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4j21"]
 albedo_color = Color(0, 1, 1, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_dxpnj"]
+radius = 0.25
+height = 0.5
 
 [node name="wizard_lvl_1" type="StaticBody3D" groups=["WizardTower"]]
 script = ExtResource("1_teu87")
@@ -134,7 +138,6 @@ material_override = SubResource("StandardMaterial3D_t4j21")
 mesh = SubResource("SphereMesh_dxpnj")
 
 [node name="Time_shoot" type="Timer" parent="."]
-wait_time = 0.8
 one_shot = true
 
 [node name="spawn_projectile_marker" type="Marker3D" parent="."]

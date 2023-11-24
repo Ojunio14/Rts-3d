@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://qmrx7uy4jhuj"]
+[gd_scene load_steps=17 format=3 uid="uid://qmrx7uy4jhuj"]
 
 [ext_resource type="Script" path="res://script/player/Player.gd" id="1_c5ajy"]
 [ext_resource type="Script" path="res://script/player/Raycast_Inputs.gd" id="2_e7bur"]
@@ -6,12 +6,15 @@
 [ext_resource type="Script" path="res://script/player/inteface_player/IntefaceManager.gd" id="4_xhadk"]
 [ext_resource type="Script" path="res://script/player/inteface_player/Control_de_Compra.gd" id="5_a4arw"]
 [ext_resource type="Texture2D" uid="uid://cueo8fqky1umq" path="res://assets/Fontes/archery1.png" id="5_g3uir"]
+[ext_resource type="Script" path="res://script/player/inteface_player/Infos_Label.gd" id="7_mks7q"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7k237"]
 albedo_color = Color(0, 1, 1, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_kesxy"]
 material = SubResource("StandardMaterial3D_7k237")
+radius = 1.0
+height = 2.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l12pf"]
 size = Vector2(352, 52)
@@ -41,6 +44,13 @@ corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yavl8"]
+bg_color = Color(0.258824, 0.258824, 0.258824, 0.686275)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5b3f8"]
 radius = 9.05539
@@ -75,6 +85,32 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_xhadk")
+
+[node name="Control" type="Control" parent="CanvasLayer/IntefaceManager"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/IntefaceManager/Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label_TIMER" type="Label" parent="CanvasLayer/IntefaceManager/Control/HBoxContainer"]
+layout_mode = 2
+text = "TIME : "
+
+[node name="Timer_counter" type="Label" parent="CanvasLayer/IntefaceManager/Control/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="CLOCK_TIMER" type="Timer" parent="CanvasLayer/IntefaceManager/Control"]
+autostart = true
 
 [node name="Area2D" type="Area2D" parent="CanvasLayer/IntefaceManager"]
 
@@ -207,11 +243,54 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_bxjgk")
 icon = ExtResource("5_g3uir")
 icon_alignment = 1
 
+[node name="Infos_Label" type="Control" parent="CanvasLayer/IntefaceManager"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -124.0
+offset_right = 150.0
+offset_bottom = -44.0
+grow_vertical = 2
+script = ExtResource("7_mks7q")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/IntefaceManager/Infos_Label"]
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 80.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_yavl8")
+
+[node name="Laba" type="VBoxContainer" parent="CanvasLayer/IntefaceManager/Infos_Label"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -73.815
+offset_top = -20.0
+offset_right = 72.185
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/IntefaceManager/Infos_Label/Laba"]
+layout_mode = 2
+
+[node name="Modo" type="Label" parent="CanvasLayer/IntefaceManager/Infos_Label/Laba/HBoxContainer"]
+layout_mode = 2
+text = "Modo :"
+
+[node name="Modo_de_Tiro" type="Label" parent="CanvasLayer/IntefaceManager/Infos_Label/Laba/HBoxContainer"]
+layout_mode = 2
+text = "auto"
+
 [node name="Mouse_Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Area2D"]
 shape = SubResource("CircleShape2D_5b3f8")
 
+[connection signal="timeout" from="CanvasLayer/IntefaceManager/Control/CLOCK_TIMER" to="CanvasLayer/IntefaceManager" method="_on_clock_timer_timeout"]
 [connection signal="button_down" from="CanvasLayer/IntefaceManager/Control_de_Compra/PanelBarra_de_cima/HBoxCima/ButtonBalista" to="CanvasLayer/IntefaceManager/Control_de_Compra" method="_on_button_balista_button_down"]
 [connection signal="button_down" from="CanvasLayer/IntefaceManager/Control_de_Compra/PanelBarra_de_cima/HBoxCima/ButtonWizard" to="CanvasLayer/IntefaceManager/Control_de_Compra" method="_on_button_wizard_button_down"]
 [connection signal="button_down" from="CanvasLayer/IntefaceManager/Control_de_Compra/PanelBarra_de_baixo/HBoxBaixo/HBoxContainer/Control/ButtonTurrent" to="CanvasLayer/IntefaceManager/Control_de_Compra" method="_on_button_turrent_button_down"]

@@ -36,6 +36,7 @@ var CurrentStateTower = StateTower.Attacking
 var is_attacking : bool = false
 # pega adiciona lista de inimies que netra na area
 var lista_alvos : Array = []
+var  Auxilio_de_Mira : Array = []
 
 func _ready() -> void:
 	detected_enimies.body_entered.connect(on_body_entered)
@@ -89,9 +90,23 @@ func _Func_State_Attacking(delta) -> void:
 	match GameManager.Current_State_Tower:
 		GameManager.Estado_para_Atirar.manual:
 			var RayCast = RayCastMouse(0)
+			if RayCast["collider"].is_in_group("enimies"):
+				Auxilio_de_Mira.append(RayCast["collider"])
+			else:
+				if Auxilio_de_Mira != []:
+					Auxilio_de_Mira.pop_front()
+				
+			#print(Auxilio_de_Mira)
 			if RayCast != null:
-				_target_prev_pos = RayCast["position"]
-				_target_velocity = (RayCast["position"] - _target_prev_pos) / delta
+				if Auxilio_de_Mira != []:
+					if Auxilio_de_Mira[0] != null:
+						_target_prev_pos = Auxilio_de_Mira[0].global_position
+						_target_velocity = (Auxilio_de_Mira[0].global_position - _target_prev_pos) / delta
+				
+				else :
+					_target_prev_pos = RayCast["position"]
+					_target_velocity = (RayCast["position"] - _target_prev_pos) / delta
+			
 			#_target_prev_pos = RayCast["Position"]
 
 			if Input.is_action_just_pressed("MouseLeft"):
@@ -115,15 +130,6 @@ func _Func_State_Attacking(delta) -> void:
 #							print(lista_alvos,"var ------", TimeAttacking)
 							if lista_alvos != [] and TimeAttacking:
 								CurrentTime = IniciarTime
-							
-							pass
-						StopTime:
-							pass
-					#if not TimeAttacking:
-		#				temporizador para spawn os projectiles
-						
-						#TimeAttacking = true
-
 #------------------------------Funçoes  de Sginal da Area3D-------------------------------------------
 #verifica se enimies entrou dentro da area da Tower
 func on_body_entered(body):
