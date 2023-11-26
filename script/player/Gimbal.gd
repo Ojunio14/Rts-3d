@@ -11,10 +11,16 @@ var zoom := 35.0
 @export var speed := 0.3
 @export var drag_speed = 0.005
 @export var acceleration := 0.08
-@export var mouse_sensitivity = 0.005
+@export var mouse_sensitivity = 0.0009
 
 var move = Vector3()
 
+const  Config_Camera : Vector3 = Vector3()
+
+var Rotation_Camera : Vector3 = Vector3(0,45,0)
+var Rotation_Atual = Vector3(0,45,0)
+var num : = 45
+var interpo
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -22,11 +28,25 @@ func _ready():
 	pass
 
 func _input(event):
+#	if event.is_action_pressed("Z"):
+#		num += 45
+#		Rotation_Camera.y = num
+#		interpo = lerp(Rotation_Atual,Rotation_Camera,8)
+#		Rotation_Atual.y = num
+#		$InnerGimbal.rotation_degrees = interpo
+
+
+		
+#		if Rotation_Camera == 365:
+#			$InnerGimbal.rotation_degrees.y = 45
+		
 	if Input.is_action_pressed("rotate_cam"):
+
 		if event is InputEventMouseMotion:
 			if event.relative.x != 0:
-				print("x")
+
 				$InnerGimbal.rotate_y( -event.relative.x * mouse_sensitivity)
+#				print(-event.relative.x * mouse_sensitivity)
 				rotate_object_local(Vector3.UP, -event.relative.x * mouse_sensitivity)
 
 #			if event.relative.y != 0:

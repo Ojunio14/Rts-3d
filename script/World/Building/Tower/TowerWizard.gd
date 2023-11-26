@@ -32,7 +32,7 @@ var TimeAttacking : bool = true
 #var TARGET = null
 
 
-var CurrentStateTower = StateTower.Attacking
+var CurrentStateTower = StateTower.Searching
 var is_attacking : bool = false
 # pega adiciona lista de inimies que netra na area
 var lista_alvos : Array = []
@@ -56,7 +56,8 @@ func _process(_delta: float) -> void:
 				GameManager.Current_State_Tower = GameManager.Estado_para_Atirar.automatico
 			GameManager.Estado_para_Atirar.automatico:
 				GameManager.Current_State_Tower = GameManager.Estado_para_Atirar.manual
-
+	if lista_alvos != []:
+		set_State_Tower(StateTower.Attacking)
 func _physics_process(delta) -> void:
 	Change_State(CurrentStateTower,delta)
 	
@@ -66,9 +67,7 @@ func set_State_Tower(Current) -> void:
 	match Current:
 		StateTower.Searching:
 			CurrentStateTower = StateTower.Searching
-			pass
 		StateTower.Attacking:
-				
 			CurrentStateTower = StateTower.Attacking
 
 #vai excultar a mudança decidida do set_State_Tower
@@ -86,7 +85,7 @@ func _Func_State_Attacking(delta) -> void:
 	#var vec3 = TARGET.global_position
 	#torre.look_at(Vector3(vec3.x,transform.origin.y,vec3.z),Vector3.UP)#transform.origin.y
 
-#vai spawna os projectile da Torre
+#vai decifir qual Modo de mira da torre
 	match GameManager.Current_State_Tower:
 		GameManager.Estado_para_Atirar.manual:
 			var RayCast = RayCastMouse(0)
@@ -116,7 +115,7 @@ func _Func_State_Attacking(delta) -> void:
 #			print(lista_alvos)
 			
 			if lista_alvos != [] :
-				if lista_alvos[0] != null:
+#				if lista_alvos[0] != null:
 					_target_prev_pos = lista_alvos[0].global_transform.origin
 					_target_velocity = (lista_alvos[0].global_transform.origin - _target_prev_pos) / delta
 
@@ -133,15 +132,13 @@ func _Func_State_Attacking(delta) -> void:
 #------------------------------Funçoes  de Sginal da Area3D-------------------------------------------
 #verifica se enimies entrou dentro da area da Tower
 func on_body_entered(body):
+	print(body,"---------")
 	if body.is_in_group("enimies") and self.name != "BALISTA_LVL_1" :
-		set_State_Tower(StateTower.Attacking)
 		lista_alvos.append(body)
-#		_target_prev_pos = lista_alvos[0]
 
 func on_body_exited(body):
 	if body.is_in_group("enimies") and self.name != "BALISTA_LVL_1":
-		#set_State_Tower(StateTower.Searching)
-		pass
+		lista_alvos.remove_at(lista_alvos.find(body))
 #-------------------------------------------
 #verifica se area desse object esta colidindo com outro oBject
 func on_area_entered(area):
@@ -158,10 +155,6 @@ func on_area_exited(area):
 				BuildManager.AbleBuilding = true
 
 #------------------------------Onready-------------------------------------------
-
-func Detected_State():
-	pass
-
 func timeout() -> void:
 	Trajetoria(GameManager.Current_State_Tower)
 
@@ -173,6 +166,7 @@ func Trajetoria(type : int) -> void:
 	
 	elif type == 1:
 		if lista_alvos != []:
+			print( lista_alvos)
 			RayCast = raycast(spawn_projectile_marker.global_position,lista_alvos[0].global_position)
 	
 	if RayCast != null:

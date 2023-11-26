@@ -40,7 +40,8 @@ func _process(_delta: float) -> void:
 			Desenha_Linha_Com_Gizmos(0)
 		GameManager.Estado_para_Atirar.automatico:
 			if get_parent().lista_alvos != []:
-				enimies = get_parent().lista_alvos[0]
+				if get_parent().lista_alvos[0] != null:
+					enimies = get_parent().lista_alvos[0]
 				Desenha_Linha_Com_Gizmos(1)
 
 
@@ -81,13 +82,16 @@ func movement_gizmo(type,type_ray_cast : int):
 #	Movimenta so o gizmo azul
 		gizmo_y.visible = false
 		gizmo_floor.global_position = Vector3(vec3.x,0,vec3.z)
-			
+		$MeshInstance3D.global_position = Vector3(vec3.x,1,vec3.z)
+		
+		
 	elif type == 1:
 #		movimenta os dois gizmos
 		line_horizontal(Vector3(vec3.x,0,vec3.z))
 		gizmo_y.visible = true
 		gizmo_floor.global_position = Vector3(vec3.x,0,vec3.z)
-		gizmo_y.global_position = Vector3(vec3.x, vec3.y + 0.3 , vec3.z)#
+		$MeshInstance3D.global_position = Vector3(vec3.x,1,vec3.z)
+		#gizmo_y.global_position = Vector3(vec3.x, vec3.y + 0.3 , vec3.z)#
 		
 
 #------------------------------RayCast-------------------------------------------

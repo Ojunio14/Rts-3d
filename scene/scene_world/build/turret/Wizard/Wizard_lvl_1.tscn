@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://8odsomqntb2o"]
+[gd_scene load_steps=17 format=3 uid="uid://8odsomqntb2o"]
 
 [ext_resource type="Texture2D" uid="uid://dop56tdylgewa" path="res://assets/building/turret/wizard/Wizard_tower_LVL_1_Texture_MAp_fortress_elves.png" id="1_j8uqb"]
 [ext_resource type="Script" path="res://script/World/Building/Tower/TowerWizard.gd" id="1_teu87"]
 [ext_resource type="Script" path="res://teste.gd" id="3_4w7bf"]
+[ext_resource type="Texture2D" uid="uid://lulq0y6d3bmc" path="res://assets/assets_VFX/pack_alpha/packs/Nova pasta/circle_03.png" id="4_4q1yy"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_alm61"]
 resource_name = "Elves_tower_map"
@@ -67,6 +68,12 @@ albedo_color = Color(0, 1, 1, 1)
 [sub_resource type="SphereMesh" id="SphereMesh_dxpnj"]
 radius = 0.25
 height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cwwgl"]
+transparency = 1
+albedo_texture = ExtResource("4_4q1yy")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vgi1a"]
 
 [node name="wizard_lvl_1" type="StaticBody3D" groups=["WizardTower"]]
 script = ExtResource("1_teu87")
@@ -137,7 +144,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.99421, 0)
 material_override = SubResource("StandardMaterial3D_t4j21")
 mesh = SubResource("SphereMesh_dxpnj")
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Draw_Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.522491, 0)
+material_override = SubResource("StandardMaterial3D_cwwgl")
+mesh = SubResource("PlaneMesh_vgi1a")
+
 [node name="Time_shoot" type="Timer" parent="."]
+wait_time = 0.5
 one_shot = true
 
 [node name="spawn_projectile_marker" type="Marker3D" parent="."]
