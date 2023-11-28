@@ -70,10 +70,12 @@ transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 
 [node name="Camera" type="Camera3D" parent="Gimbal/InnerGimbal"]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 54, 75, 53)
 projection = 1
-size = 55.0
+current = true
+size = 30.0
 far = 283.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Gimbal"]
+visible = false
 mesh = SubResource("SphereMesh_kesxy")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -88,6 +90,7 @@ grow_vertical = 2
 script = ExtResource("4_xhadk")
 
 [node name="Area2D" type="Area2D" parent="CanvasLayer/IntefaceManager"]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/IntefaceManager/Area2D"]
 visible = false
@@ -114,6 +117,7 @@ grow_vertical = 0
 script = ExtResource("5_a4arw")
 
 [node name="PanelBarra_de_cima" type="Panel" parent="CanvasLayer/IntefaceManager/Control_de_Compra"]
+visible = false
 layout_mode = 2
 offset_left = 122.5
 offset_right = 472.5
@@ -162,6 +166,7 @@ layout_mode = 2
 text = "dsfgasdgf"
 
 [node name="PanelBarra_de_baixo" type="Panel" parent="CanvasLayer/IntefaceManager/Control_de_Compra"]
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -260,11 +265,65 @@ text = "Modo :"
 layout_mode = 2
 text = "auto"
 
+[node name="HBox_enemies_killed" type="HBoxContainer" parent="CanvasLayer/IntefaceManager/Infos_Label/Laba"]
+layout_mode = 2
+
+[node name="Label_enemies_killed" type="Label" parent="CanvasLayer/IntefaceManager/Infos_Label/Laba/HBox_enemies_killed"]
+layout_mode = 2
+text = "enemies killed :
+"
+
+[node name="enemies_killed_counter" type="Label" parent="CanvasLayer/IntefaceManager/Infos_Label/Laba/HBox_enemies_killed"]
+layout_mode = 2
+text = "0"
+
+[node name="FIm_project" type="Control" parent="CanvasLayer/IntefaceManager" groups=["fim"]]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer/IntefaceManager/FIm_project"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/IntefaceManager/FIm_project/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -53.0
+offset_top = -43.0
+offset_right = 53.0
+offset_bottom = 43.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 60
+text = "Fim"
+horizontal_alignment = 1
+
 [node name="Mouse_Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Area2D"]
 shape = SubResource("CircleShape2D_5b3f8")
-
-[connection signal="button_down" from="CanvasLayer/IntefaceManager/Control_de_Compra/PanelBarra_de_cima/HBoxCima/ButtonBalista" to="CanvasLayer/IntefaceManager/Control_de_Compra" method="_on_button_balista_button_down"]
-[connection signal="button_down" from="CanvasLayer/IntefaceManager/Control_de_Compra/PanelBarra_de_cima/HBoxCima/ButtonWizard" to="CanvasLayer/IntefaceManager/Control_de_Compra" method="_on_button_wizard_button_down"]
-[connection signal="button_down" from="CanvasLayer/IntefaceManager/Control_de_Compra/PanelBarra_de_baixo/HBoxBaixo/HBoxContainer/Control/ButtonTurrent" to="CanvasLayer/IntefaceManager/Control_de_Compra" method="_on_button_turrent_button_down"]

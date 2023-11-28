@@ -42,17 +42,19 @@ func _process(_delta: float) -> void:
 			if get_parent().lista_alvos != []:
 				if get_parent().lista_alvos[0] != null:
 					enimies = get_parent().lista_alvos[0]
-				Desenha_Linha_Com_Gizmos(1)
+					Desenha_Linha_Com_Gizmos(1)
 
 
 #------------------------------Onready-------------------------------------------
 #vai chama a funçao a para desenha linhas e a fuçao de movimentaçao dos gizmo
 func Desenha_Linha_Com_Gizmos(tipo_ray_cast) -> void:
+#==================================================
+#	Esse trecho vai decidir qual Raycast Usar
 	if tipo_ray_cast == 0:
 		result = RayCastMouse(0)
 	elif tipo_ray_cast == 1:
 		if enimies != null:
-			result = RayCast(spawn_projectile_marker.global_position, enimies.global_position)
+			result = RayCast(spawn_projectile_marker.global_position, get_parent().lista_alvos[0].global_position)
 		else:
 			result = null
 
@@ -91,7 +93,7 @@ func movement_gizmo(type,type_ray_cast : int):
 		gizmo_y.visible = true
 		gizmo_floor.global_position = Vector3(vec3.x,0,vec3.z)
 		$MeshInstance3D.global_position = Vector3(vec3.x,1,vec3.z)
-		#gizmo_y.global_position = Vector3(vec3.x, vec3.y + 0.3 , vec3.z)#
+		gizmo_y.global_position = Vector3(vec3.x, vec3.y + 0.3 , vec3.z)#
 		
 
 #------------------------------RayCast-------------------------------------------

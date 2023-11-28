@@ -18,7 +18,9 @@ var activeBuildingObject : bool
 var Weapons : int = 0
 var Life_Tower : float = 0
 
-var ProjectileArrowSpeed : float = 10.0
+var ProjectileArrowSpeed : float = 50.0
+var Projectile_Arrow_Speed_Auto : float = 15.0
+var Projectile_Arrow_Speed_Manual : float = 20.0
 
 enum StateTower {
 	Searching,

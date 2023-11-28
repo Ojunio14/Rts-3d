@@ -1,6 +1,8 @@
 extends Node3D
 @onready var tempo_ondas: Control = $Tempo_Ondas
 var teste = preload("res://teste_.tscn")
+var WAVES = preload("res://scene/scene_world/wave.tscn")
+
 
 enum {
 	Start_Ondas,
@@ -10,31 +12,45 @@ enum {
 	Searching_Ondas
 	
 }
-var tamanho = 1
+var tamanho = 30
 var CurrentOndas = Searching_Ondas
 var group
+
+var mult = 3
+var Current_Waves = 0
+var ondas_spawn = 1
 
 
 func _ready() -> void:
 	$Tempo_Ondas.connect("TIMER_ONDAS", Callable(self, "_atulizar_Estado_das_Ondas"))
 	group= get_tree().get_first_node_in_group("group_enimies")
-	if -50 > -60:
-		print("maior")
-	else:
-		print("menor")
 
+
+var quantidade_de_waves : int  = 15
+var coord_random_array : Array = []
+#
+
+
+#nu
+var numeros_de_enemy
 
 var random = RandomNumberGenerator.new()
  
+
+var esperar_Timer = true
+
+	
+
 func _process(delta: float) -> void:
 	randomize()
 	match CurrentOndas:
 		Start_Ondas:
+			gera_coord_para_array()
+			#esperar_Timer = true
+			
 			GameManager.is_Ondas = true
-			tempo_ondas.minutes = 1
-			tempo_ondas.seconds = 30
-			$Spawner.start_next_wave()
-			spawn()
+			
+			modificar_waves()
 			CurrentOndas = Espera_Ondas 
 			pass
 		Pause_Ondas:
@@ -68,21 +84,37 @@ func getRandomPosition(size) -> Vector3:
 func _atulizar_Estado_das_Ondas() -> void:
 	CurrentOndas = Start_Ondas
 
-func spawn():
-#	for l in tamanho:
-#		var tes = enimies.instantiate()
-#
-#		var pos = getRandomPosition(150)
-#		#print(pos)
-#		if pos.x > 50.0 and pos.x > -50.0:
-#			if pos.z > 50.0 or pos.z > -50.0:
-#
-#				print("------------------------")
-#				$teste_node.add_child(tes)
-#				tes.global_position = pos
-#
+func gera_coord_para_array():
+	for l in tamanho:
+		
+
+		var coord= getRandomPosition(80)
+		#print(coord)
+		
+		if coord.x > 20.0 or coord.x < -20.0:
+			if coord.z > 20.0 or coord.z < -15.0:
+				coord_random_array.append(coord)
+				
+
+
 	pass
 
 
+func Iniciar_next_Waves():
+	pass
 
+
+func modificar_waves():
+#	Current_Waves += 1
+#	if Current_Waves > 0:
+#		mult = mult + 4
+#		ondas_spawn += 2 
+#		for ondas_spawn
+#		$Spawner/Waves_Main/Wave.num_enimies =  mult
+		
+			
+#		$Spawner.position_spawn = coord_random_array.pick_random()
+		$Spawner.start_next_wave()
+		
+		
 

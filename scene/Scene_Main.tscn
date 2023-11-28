@@ -1,12 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://81r1bw0i4v37"]
+[gd_scene load_steps=13 format=3 uid="uid://81r1bw0i4v37"]
 
 [ext_resource type="PackedScene" uid="uid://qmrx7uy4jhuj" path="res://Player.tscn" id="1_4fdu4"]
 [ext_resource type="Script" path="res://script/World/Level_Main.gd" id="1_k5ep6"]
 [ext_resource type="PackedScene" uid="uid://cuvoec8uui8to" path="res://scene/scene_world/mundo.tscn" id="1_r0mkq"]
 [ext_resource type="Script" path="res://script/World/Spawner.gd" id="2_1puhy"]
 [ext_resource type="Script" path="res://script/World/Interface/Tempo_Ondas.gd" id="2_dpba0"]
-[ext_resource type="PackedScene" uid="uid://civxrhvwl12ic" path="res://scene/Entities/scene_enimies/skeleton.tscn" id="3_6lj85"]
-[ext_resource type="Script" path="res://script/World/Waves_World/Wave.gd" id="3_qhmv1"]
+[ext_resource type="PackedScene" uid="uid://dmdsqpp8x4g8s" path="res://scene/scene_world/wave.tscn" id="3_vog3d"]
 [ext_resource type="PackedScene" uid="uid://8odsomqntb2o" path="res://scene/scene_world/build/turret/Wizard/Wizard_lvl_1.tscn" id="4_bi4dd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mr8hk"]
@@ -21,6 +20,33 @@ background_mode = 2
 sky = SubResource("Sky_plsgx")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rsc58"]
+bg_color = Color(0.188235, 0.188235, 0.188235, 1)
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xw343"]
+bg_color = Color(0.6, 0.211765, 0.211765, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 0)
+border_blend = true
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
 [node name="Scene_Main" type="Node3D"]
 
@@ -45,79 +71,89 @@ script = ExtResource("2_1puhy")
 [node name="Waves_Main" type="Node3D" parent="Level_Main/Spawner"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.9163, -2.64453, 0)
 
-[node name="Wave" type="Node" parent="Level_Main/Spawner/Waves_Main"]
-script = ExtResource("3_qhmv1")
-
-[node name="Wave2" type="Node" parent="Level_Main/Spawner/Waves_Main"]
-script = ExtResource("3_qhmv1")
-num_enimies = 10
+[node name="Wave" parent="Level_Main/Spawner/Waves_Main" instance=ExtResource("3_vog3d")]
+num_enimies = 5
 sceond_between_spawns = 1.0
 
-[node name="Wave3" type="Node" parent="Level_Main/Spawner/Waves_Main"]
-script = ExtResource("3_qhmv1")
-num_enimies = 30
-sceond_between_spawns = 0.2
+[node name="Wave2" parent="Level_Main/Spawner/Waves_Main" instance=ExtResource("3_vog3d")]
+num_enimies = 10
+
+[node name="Wave3" parent="Level_Main/Spawner/Waves_Main" instance=ExtResource("3_vog3d")]
+num_enimies = 15
+
+[node name="Wave4" parent="Level_Main/Spawner/Waves_Main" instance=ExtResource("3_vog3d")]
+num_enimies = 20
+
+[node name="Wave5" parent="Level_Main/Spawner/Waves_Main" instance=ExtResource("3_vog3d")]
+num_enimies = 35
+
+[node name="Wave6" parent="Level_Main/Spawner/Waves_Main" instance=ExtResource("3_vog3d")]
+num_enimies = 40
+
+[node name="Wave7" parent="Level_Main/Spawner/Waves_Main" instance=ExtResource("3_vog3d")]
+num_enimies = 45
 
 [node name="Tempo_Ondas" type="Control" parent="Level_Main"]
 layout_mode = 3
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 40.0
+offset_left = -50.0
+offset_right = 50.0
+offset_bottom = 100.0
 grow_horizontal = 2
 script = ExtResource("2_dpba0")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Level_Main/Tempo_Ondas"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Level_Main/Tempo_Ondas"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Label_TIMER" type="Label" parent="Level_Main/Tempo_Ondas/HBoxContainer"]
+[node name="HBox_do_Timer" type="HBoxContainer" parent="Level_Main/Tempo_Ondas/VBoxContainer"]
 layout_mode = 2
-text = "TIME : "
 
-[node name="Timer_counter" type="Label" parent="Level_Main/Tempo_Ondas/HBoxContainer"]
+[node name="Label_TIMER" type="Label" parent="Level_Main/Tempo_Ondas/VBoxContainer/HBox_do_Timer"]
+layout_mode = 2
+text = "TEMPO : "
+
+[node name="Timer_counter" type="Label" parent="Level_Main/Tempo_Ondas/VBoxContainer/HBox_do_Timer"]
 layout_mode = 2
 text = "0"
+
+[node name="HBox_do_level_waves" type="HBoxContainer" parent="Level_Main/Tempo_Ondas/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Level_Main/Tempo_Ondas/VBoxContainer/HBox_do_level_waves"]
+layout_mode = 2
+text = "Wave : "
+
+[node name="Counter_Waves" type="Label" parent="Level_Main/Tempo_Ondas/VBoxContainer/HBox_do_level_waves"]
+layout_mode = 2
+text = "1
+"
+
+[node name="ProgressBar" type="ProgressBar" parent="Level_Main/Tempo_Ondas/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_rsc58")
+theme_override_styles/fill = SubResource("StyleBoxFlat_xw343")
+show_percentage = false
 
 [node name="CLOCK_TIMER" type="Timer" parent="Level_Main/Tempo_Ondas"]
 autostart = true
 
 [node name="Grupo_Enimies" type="Node3D" parent="Level_Main" groups=["group_enimies"]]
 
-[node name="Skeleton" parent="Level_Main/Grupo_Enimies" instance=ExtResource("3_6lj85")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.0924, 0, 0)
-
-[node name="Skeleton2" parent="Level_Main/Grupo_Enimies" instance=ExtResource("3_6lj85")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 28.056)
-
-[node name="Skeleton3" parent="Level_Main/Grupo_Enimies" instance=ExtResource("3_6lj85")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -40.5003)
-
-[node name="Skeleton4" parent="Level_Main/Grupo_Enimies" instance=ExtResource("3_6lj85")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -25.0449)
-
-[node name="Skeleton5" parent="Level_Main/Grupo_Enimies" instance=ExtResource("3_6lj85")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.6815, 0, -19.9001)
-
-[node name="Skeleton6" parent="Level_Main/Grupo_Enimies" instance=ExtResource("3_6lj85")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.8064, 0, 29.2399)
-
-[node name="Skeleton7" parent="Level_Main/Grupo_Enimies" instance=ExtResource("3_6lj85")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.1034, 0, 10.1418)
-
 [node name="Mundo" parent="Level_Main" instance=ExtResource("1_r0mkq")]
-
-[node name="Player" parent="Level_Main" instance=ExtResource("1_4fdu4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55405, 0)
 
 [node name="Projectile_group" type="Node3D" parent="Level_Main" groups=["Projectile_group"]]
 
 [node name="Build" type="Node3D" parent="Level_Main" groups=["group_Build"]]
 
 [node name="wizard_lvl_1" parent="Level_Main/Build" instance=ExtResource("4_bi4dd")]
+
+[node name="Player" parent="Level_Main" instance=ExtResource("1_4fdu4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55405, 0)
 
 [connection signal="timeout" from="Level_Main/Spawner/Timer" to="Level_Main/Spawner" method="_on_timer_timeout"]
 [connection signal="timeout" from="Level_Main/Tempo_Ondas/CLOCK_TIMER" to="Level_Main/Tempo_Ondas" method="_on_clock_timer_timeout"]

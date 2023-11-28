@@ -21,10 +21,11 @@ var Rotation_Camera : Vector3 = Vector3(0,45,0)
 var Rotation_Atual = Vector3(0,45,0)
 var num : = 45
 var interpo
-
+var inicial
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#OS.window_fullscreen = true
+	inicial = global_rotation
 	pass
 
 func _input(event):
@@ -39,8 +40,13 @@ func _input(event):
 		
 #		if Rotation_Camera == 365:
 #			$InnerGimbal.rotation_degrees.y = 45
+	if Input.is_action_just_pressed("Z"):
 		
+		$InnerGimbal.global_rotation = inicial
 	if Input.is_action_pressed("rotate_cam"):
+		
+			
+
 
 		if event is InputEventMouseMotion:
 			if event.relative.x != 0:

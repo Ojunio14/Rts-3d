@@ -3,10 +3,12 @@ extends "res://script/Config/Classe/Classe_Tower.gd"
 #Script da Torre de Baslista
 
 #------------------------------Onready-------------------------------------------
-@onready var detected_enimies: Area3D = $detected_enimies
+@onready var detected_enemy: Area3D = $Detected_Enemy
+
 #@onready var torre: Node3D = $Balista_lvl_1/B_tower_1_rig/Skeleton3D/Torre
 @onready var spawn_projectile_marker: Marker3D = $spawn_projectile_marker
 @onready var time_shoot: Timer = $Time_shoot
+
 
 enum {	IniciarTime,
 		EsperaTime,
@@ -15,17 +17,25 @@ enum {	IniciarTime,
 	
 	}
 var CurrentTime = IniciarTime
+
+
+
 #------------------------------Variaveis-------------------------------------------
 #========variaveis para o projectile===
-var _target_prev_pos #$Target.global_transform.origin
-var _target_velocity = Vector3.ZERO
+#var _target_prev_pos #$Target.global_transform.origin
+#var _target_velocity = Vector3.ZERO
 var Intercept_Dictionary : Dictionary = {
 	"Pos_Initial" : Vector3(),
 	"Speed" : ProjectileArrowSpeed,
 	"Pos_Target" : Vector3(),
-	"_target_velocity" : _target_velocity,
+	"_target_velocity" : Vector3(),
 	"Marker" : Object
 	}
+
+
+
+var municao_da_torre_auto = 5
+
 #======================================
 #momento em
 var TimeAttacking : bool = true
@@ -39,8 +49,8 @@ var lista_alvos : Array = []
 var  Auxilio_de_Mira : Array = []
 
 func _ready() -> void:
-	detected_enimies.body_entered.connect(on_body_entered)
-	detected_enimies.body_exited.connect(on_body_exited)
+	detected_enemy.body_entered.connect(on_body_entered)
+	detected_enemy.body_exited.connect(on_body_exited)
 	time_shoot.timeout.connect(timeout)
 	
 	Intercept_Dictionary["Marker"] = spawn_projectile_marker
@@ -56,10 +66,16 @@ func _process(_delta: float) -> void:
 				GameManager.Current_State_Tower = GameManager.Estado_para_Atirar.automatico
 			GameManager.Estado_para_Atirar.automatico:
 				GameManager.Current_State_Tower = GameManager.Estado_para_Atirar.manual
-	if lista_alvos != []:
-		set_State_Tower(StateTower.Attacking)
+	
+#	if lista_alvos != []:
+#		set_State_Tower(StateTower.Attacking)
 func _physics_process(delta) -> void:
-	Change_State(CurrentStateTower,delta)
+	match GameManager.Current_State_Tower:
+			GameManager.Estado_para_Atirar.manual:
+#				if Input.is_action_just_pressed("MouseLeft"):
+#					Trajetoria(GameManager.Estado_para_Atirar.manual)
+				pass
+#	Change_State(CurrentStateTower,delta)
 	
 #------------------------------Funçoes do State Machine dessa Tower-------------------------------------------
 #vai decidir qual vai ser o state da Torre
@@ -88,56 +104,61 @@ func _Func_State_Attacking(delta) -> void:
 #vai decifir qual Modo de mira da torre
 	match GameManager.Current_State_Tower:
 		GameManager.Estado_para_Atirar.manual:
-			var RayCast = RayCastMouse(0)
-			if RayCast["collider"].is_in_group("enimies"):
-				Auxilio_de_Mira.append(RayCast["collider"])
-			else:
-				if Auxilio_de_Mira != []:
-					Auxilio_de_Mira.pop_front()
-				
-			#print(Auxilio_de_Mira)
-			if RayCast != null:
-				if Auxilio_de_Mira != []:
-					if Auxilio_de_Mira[0] != null:
-						_target_prev_pos = Auxilio_de_Mira[0].global_position
-						_target_velocity = (Auxilio_de_Mira[0].global_position - _target_prev_pos) / delta
-				
-				else :
-					_target_prev_pos = RayCast["position"]
-					_target_velocity = (RayCast["position"] - _target_prev_pos) / delta
-			
+#			var RayCast = RayCastMouse(0)
+#			if RayCast["collider"].is_in_group("enimies"):
+#				Auxilio_de_Mira.append(RayCast["collider"])
+#			else:
+#				if Auxilio_de_Mira != []:
+#					Auxilio_de_Mira.pop_front()
+#
+#			#print(Auxilio_de_Mira)
+#			if RayCast != null:
+#				if Auxilio_de_Mira != []:
+#					if Auxilio_de_Mira[0] != null:
+#						_target_prev_pos = Auxilio_de_Mira[0].global_position
+#						_target_velocity = (Auxilio_de_Mira[0].global_position - _target_prev_pos) / delta
+#
+#				else :
+#					_target_prev_pos = RayCast["position"]
+#					_target_velocity = (RayCast["position"] - _target_prev_pos) / delta
+#
 			#_target_prev_pos = RayCast["Position"]
 
-			if Input.is_action_just_pressed("MouseLeft"):
-				Trajetoria(GameManager.Estado_para_Atirar.manual)
-				
-		GameManager.Estado_para_Atirar.automatico:
-#			print(lista_alvos)
-			
-			if lista_alvos != [] :
-#				if lista_alvos[0] != null:
-					_target_prev_pos = lista_alvos[0].global_transform.origin
-					_target_velocity = (lista_alvos[0].global_transform.origin - _target_prev_pos) / delta
-
-					match CurrentTime:
-						IniciarTime:
-							time_shoot.start()
-							CurrentTime = EsperaTime
-							TimeAttacking = false
-							
-						EsperaTime:
-#							print(lista_alvos,"var ------", TimeAttacking)
-							if lista_alvos != [] and TimeAttacking:
-								CurrentTime = IniciarTime
+#			if Input.is_action_just_pressed("MouseLeft"):
+#				Trajetoria(GameManager.Estado_para_Atirar.manual)
+#
+#		GameManager.Estado_para_Atirar.automatico:
+##			print(lista_alvos)
+#
+#			if lista_alvos != [] :
+##				if lista_alvos[0] != null:
+#					_target_prev_pos = lista_alvos[0].global_transform.origin
+#					_target_velocity = (lista_alvos[0].global_transform.origin - _target_prev_pos) / delta
+#
+#					match CurrentTime:
+#						IniciarTime:
+#							time_shoot.start()
+#							CurrentTime = EsperaTime
+#							TimeAttacking = false
+#
+#						EsperaTime:
+##							print(lista_alvos,"var ------", TimeAttacking)
+#							if lista_alvos != [] and TimeAttacking:
+#								CurrentTime = IniciarTime
+#							if lista_alvos != [] and not TimeAttacking:
+#								TimeAttacking = true
+				pass
 #------------------------------Funçoes  de Sginal da Area3D-------------------------------------------
 #verifica se enimies entrou dentro da area da Tower
 func on_body_entered(body):
-	print(body,"---------")
-	if body.is_in_group("enimies") and self.name != "BALISTA_LVL_1" :
+	
+	if body is Enemy  :
 		lista_alvos.append(body)
-
+#		print(body,"---------")
+		
+		
 func on_body_exited(body):
-	if body.is_in_group("enimies") and self.name != "BALISTA_LVL_1":
+	if body is Enemy :
 		lista_alvos.remove_at(lista_alvos.find(body))
 #-------------------------------------------
 #verifica se area desse object esta colidindo com outro oBject
@@ -155,24 +176,27 @@ func on_area_exited(area):
 				BuildManager.AbleBuilding = true
 
 #------------------------------Onready-------------------------------------------
-func timeout() -> void:
-	Trajetoria(GameManager.Current_State_Tower)
-
-func Trajetoria(type : int) -> void:
-	var RayCast
-	
-	if type == 0:
-		RayCast = RayCastMouse(0)
-	
-	elif type == 1:
-		if lista_alvos != []:
-			print( lista_alvos)
-			RayCast = raycast(spawn_projectile_marker.global_position,lista_alvos[0].global_position)
-	
-	if RayCast != null:
-		
-		Intercept_Dictionary["Pos_Target"] = Vector3(RayCast["position"].x, RayCast["position"].y, RayCast["position"].z)
-		Intercept_Dictionary["_target_velocity"] = _target_velocity
-		Intercept_trajectory(Intercept_Dictionary)
-		CurrentTime = EsperaTime
-		TimeAttacking = true
+func timeout():
+	pass
+#func timeout() -> void:
+#	Trajetoria(GameManager.Current_State_Tower)
+#
+#func Trajetoria(type : int) -> void:
+#	var RayCast
+#
+#	if type == 0:
+#		RayCast = RayCastMouse(0)
+#
+#	elif type == 1:
+#		if lista_alvos != []:
+#
+#			RayCast = raycast(spawn_projectile_marker.global_position,lista_alvos[0].global_position)
+#
+#	if RayCast != null:
+#
+#		Intercept_Dictionary["Pos_Target"] = Vector3(RayCast["position"].x, RayCast["position"].y, RayCast["position"].z)
+#		Intercept_Dictionary["_target_velocity"] = _target_velocity
+#		Intercept_Dictionary["Speed"] = Projectile_Arrow_Speed_Manual
+#		Intercept_trajectory(Intercept_Dictionary)
+#		CurrentTime = EsperaTime
+#		TimeAttacking = true

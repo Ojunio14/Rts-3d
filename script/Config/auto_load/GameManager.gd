@@ -15,3 +15,4 @@ var Current_State_Tower = Estado_para_Atirar.automatico
 var CurrentState = State.Play
 
 var is_Ondas : bool = false
+var enemies_killed : int = 0

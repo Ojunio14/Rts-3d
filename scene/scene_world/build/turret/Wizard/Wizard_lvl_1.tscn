@@ -1,9 +1,13 @@
-[gd_scene load_steps=17 format=3 uid="uid://8odsomqntb2o"]
+[gd_scene load_steps=21 format=3 uid="uid://8odsomqntb2o"]
 
 [ext_resource type="Texture2D" uid="uid://dop56tdylgewa" path="res://assets/building/turret/wizard/Wizard_tower_LVL_1_Texture_MAp_fortress_elves.png" id="1_j8uqb"]
 [ext_resource type="Script" path="res://script/World/Building/Tower/TowerWizard.gd" id="1_teu87"]
 [ext_resource type="Script" path="res://teste.gd" id="3_4w7bf"]
-[ext_resource type="Texture2D" uid="uid://lulq0y6d3bmc" path="res://assets/assets_VFX/pack_alpha/packs/Nova pasta/circle_03.png" id="4_4q1yy"]
+[ext_resource type="Texture2D" uid="uid://j77ihic2ar1n" path="res://assets/assets_VFX/pack_alpha/packs/Nova pasta/magic_03.png" id="4_l42it"]
+[ext_resource type="Script" path="res://script/Config/state_machine_finite/StateMachine.gd" id="5_cqscd"]
+[ext_resource type="Script" path="res://script/Config/state_machine_finite/Tower/TowerSearching.gd" id="6_tmhd6"]
+[ext_resource type="Script" path="res://script/Config/state_machine_finite/Tower/TowerAttacking.gd" id="7_3bumc"]
+[ext_resource type="Script" path="res://script/Config/state_machine_finite/Tower/TowerMouseAim.gd" id="8_uhrig"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_alm61"]
 resource_name = "Elves_tower_map"
@@ -71,7 +75,8 @@ height = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cwwgl"]
 transparency = 1
-albedo_texture = ExtResource("4_4q1yy")
+albedo_color = Color(1, 0, 0, 1)
+albedo_texture = ExtResource("4_l42it")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_vgi1a"]
 
@@ -127,9 +132,9 @@ shape = SubResource("CapsuleShape3D_tojne")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.02897, 0)
 shape = SubResource("BoxShape3D_1xl0a")
 
-[node name="detected_enimies" type="Area3D" parent="."]
+[node name="Detected_Enemy" type="Area3D" parent="."]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="detected_enimies"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Detected_Enemy"]
 shape = SubResource("SphereShape3D_7unm7")
 
 [node name="Draw_Line" type="Node3D" parent="."]
@@ -145,7 +150,8 @@ material_override = SubResource("StandardMaterial3D_t4j21")
 mesh = SubResource("SphereMesh_dxpnj")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Draw_Line"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.522491, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.522491, 2.31303)
+visible = false
 material_override = SubResource("StandardMaterial3D_cwwgl")
 mesh = SubResource("PlaneMesh_vgi1a")
 
@@ -155,3 +161,18 @@ one_shot = true
 
 [node name="spawn_projectile_marker" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.899558, 0.436802, 0, -0.436802, 0.899558, 0, 9.80496, 0)
+
+[node name="StateMachine" type="Node3D" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("5_cqscd")
+initial_state = NodePath("TowerSearching")
+
+[node name="TowerSearching" type="Node3D" parent="StateMachine"]
+script = ExtResource("6_tmhd6")
+
+[node name="TowerAttacking" type="Node3D" parent="StateMachine"]
+script = ExtResource("7_3bumc")
+
+[node name="TowerMouseAim" type="Node3D" parent="StateMachine"]
+script = ExtResource("8_uhrig")
+
+[node name="Position_Torre" type="Marker3D" parent="."]

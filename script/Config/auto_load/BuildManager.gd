@@ -2,7 +2,7 @@ extends Node3D
 #------------------------------PackedScene-------------------------------------------
 #Carregas Scenes das Towes
 var BALISTA_TOWER : PackedScene = ResourceLoader.load("res://scene/scene_world/build/turret/balista/balista_lvl_1.tscn")#ResourceLoader.load("res://scene/scene_world/build/turret/balista/balista_lvl_1.tscn")
-var WIZARD_TOWER : PackedScene = ResourceLoader.load("res://scene/scene_world/build/turret/Wizard/Wizard_lvl_1.tscn")
+#var WIZARD_TOWER : PackedScene = ResourceLoader.load("res://scene/scene_world/build/turret/Wizard/Wizard_lvl_1.tscn")
 
 #CurrentSpawnable Variavel onde vai ter a Scene de uma Torre
 var CurrentSpawnable : StaticBody3D
@@ -27,11 +27,11 @@ func _physics_process(_delta: float) -> void:
 		#Verifica se area das Construçoes nao estao se colidindo
 		if AbleBuilding:
 			if Input.is_action_just_pressed("MouseLeft") :
-				var obj := CurrentSpawnable.duplicate()
-				get_tree().root.get_node("Scene_Main/Build").add_child(obj)
-				obj.activeBuildingObject = false
-				obj.global_position = CurrentSpawnable.global_position
-
+#				var obj := CurrentSpawnable.duplicate()
+#				get_tree().root.get_node("Scene_Main/Build").add_child(obj)
+#				obj.activeBuildingObject = false
+#				obj.global_position = CurrentSpawnable.global_position
+				pass
 #------------------------------Instanciaçao das Scenes-------------------------------------------
 
 #essas scenes vao ser chamadas nos Script Controle_de_Compra
@@ -39,8 +39,8 @@ func Spawn_Balista_tower() -> void:
 	SpawnOBj(BALISTA_TOWER)
 
 func Spawn_Wizard_tower() -> void:
-	SpawnOBj(WIZARD_TOWER)
-
+	#SpawnOBj(WIZARD_TOWER)
+	pass
 #function usada para instancia as Scenes
 func SpawnOBj(obj : PackedScene):
 #Obj vai receber uma PackedScene

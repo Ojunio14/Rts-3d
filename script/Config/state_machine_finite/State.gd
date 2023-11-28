@@ -1,11 +1,11 @@
 extends Node3D
 class_name State
-var Balista
+var Torre
 signal  Transitioned
 
 
 func _ready() -> void:
-	Balista = get_parent().get_parent()
+	Torre = get_parent().get_parent()
 
 func Enter():
 	

@@ -8,12 +8,12 @@ var life : float = 10.0
 @onready var navigation_agent: NavigationAgent3D = get_node("NavigationAgent3D")
 
 signal matar_skeleton
-
+var target_tower
 func _ready() -> void:
 	$Area3D.connect("body_entered",Callable(self,"_on_area_3d_body_entered"))
 	self.matar_skeleton.connect(vai_matar_esse_Skeleton)
 	navigation_agent.velocity_computed.connect(Callable(_on_velocity_computed))
-	
+	target_tower = get_tree().get_first_node_in_group("WizardTower")
 	
 	
 func set_movement_target(movement_target: Vector3):
@@ -25,7 +25,7 @@ func _process(_delta: float) -> void:
 		emit_signal("matar_skeleton")
 
 	if GameManager.is_Ondas:
-		set_movement_target(Vector3(0,0,0))
+		set_movement_target(target_tower.get_node("Position_Torre").global_position)
 		
 		
 func _physics_process(_delta):

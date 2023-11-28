@@ -1,8 +1,6 @@
-[gd_scene load_steps=26 format=3 uid="uid://civxrhvwl12ic"]
+[gd_scene load_steps=27 format=3 uid="uid://civxrhvwl12ic"]
 
 [ext_resource type="Script" path="res://script/Entities/script_enimies/Skeleton.gd" id="1_h3ca0"]
-[ext_resource type="Script" path="res://script/Config/state_machine_finite/StateMachine.gd" id="2_po3vb"]
-[ext_resource type="Script" path="res://script/Config/state_machine_finite/enimies/Walk.gd" id="3_wchxo"]
 [ext_resource type="PackedScene" uid="uid://csoupw66jlfvi" path="res://scene/GUI/Todos_menus/progress_bar_life.tscn" id="4_6ukag"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0fpq3"]
@@ -356,6 +354,43 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_2ww7f")
 
+[sub_resource type="Animation" id="Animation_d3c3i"]
+resource_name = "Walk"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rotation:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.2, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_itlh5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rotation:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0l7qs"]
+_data = {
+"RESET": SubResource("Animation_itlh5"),
+"Walk": SubResource("Animation_d3c3i")
+}
+
 [node name="Skeleton" type="CharacterBody3D" groups=["enimies"]]
 script = ExtResource("1_h3ca0")
 
@@ -369,17 +404,10 @@ visible = false
 mesh = SubResource("CapsuleMesh_osdny")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
-path_desired_distance = 10.0
-target_desired_distance = 15.0
-avoidance_enabled = true
-debug_enabled = true
+path_desired_distance = 2.5
+target_desired_distance = 2.5
+path_max_distance = 2.51
 debug_path_custom_color = Color(1, 0.0313726, 1, 1)
-
-[node name="StateMachine" type="Node3D" parent="."]
-script = ExtResource("2_po3vb")
-
-[node name="WalkSkeleton" type="Node3D" parent="StateMachine"]
-script = ExtResource("3_wchxo")
 
 [node name="Area3D" type="Area3D" parent="."]
 
@@ -431,3 +459,9 @@ skeleton = NodePath("")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.126701, 0.0399227)
 mesh = SubResource("ArrayMesh_vss3r")
 skeleton = NodePath("")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="character_skeleton_minion"]
+autoplay = "Walk"
+libraries = {
+"": SubResource("AnimationLibrary_0l7qs")
+}

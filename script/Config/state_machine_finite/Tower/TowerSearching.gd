@@ -8,10 +8,16 @@ func Enter():
 
 
 func Update(_delta : float):
-	
-	
-	pass
+	if Torre.lista_alvos != []:
+		Transitioned.emit(self,"TowerAttacking")
 
+	match GameManager.Current_State_Tower:
+			GameManager.Estado_para_Atirar.manual:
+				Transitioned.emit(self, "TowerMouseAim")
+			GameManager.Estado_para_Atirar.automatico:
+				#Transitioned.emit(self, "TowerAttacking")
+				pass
+	
 
 func Physics_Update(_delta : float):
 	pass
@@ -20,9 +26,3 @@ func Exit():
 	pass
 
 
-func on_body_entered(body) -> void:
-	if body.is_in_group("enimies"):
-		Transitioned.emit(self,"TowerAttacking")
-		Balista.TARGET = body
-	
-	pass
