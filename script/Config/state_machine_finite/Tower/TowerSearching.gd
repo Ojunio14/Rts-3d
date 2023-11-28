@@ -3,7 +3,6 @@ class_name TowerSearching
 
 
 func Enter():
-	
 	pass
 
 
@@ -15,9 +14,7 @@ func Update(_delta : float):
 			GameManager.Estado_para_Atirar.manual:
 				Transitioned.emit(self, "TowerMouseAim")
 			GameManager.Estado_para_Atirar.automatico:
-				#Transitioned.emit(self, "TowerAttacking")
 				pass
-	
 
 func Physics_Update(_delta : float):
 	pass
